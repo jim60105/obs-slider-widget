@@ -24,6 +24,13 @@ When the user adjusts the font size slider, the display title's `style.fontSize`
 - **WHEN** the user drags the font size slider to 24
 - **THEN** the display panel's title text immediately has `font-size: 24px`
 
+### Requirement: Real-time status font size sync
+When the user adjusts the status font size slider, the status/fraction text's `style.fontSize` SHALL update immediately.
+
+#### Scenario: Dragging status font size slider updates status text size
+- **WHEN** the user drags the status font size slider to 20
+- **THEN** the status/fraction text immediately has `font-size: 20px`
+
 ### Requirement: Real-time progress sync
 When the user adjusts the progress slider, the system SHALL immediately call the progress update function which updates the fill `scaleY`, percentage text, and `aria-valuenow`.
 
@@ -65,4 +72,4 @@ On `DOMContentLoaded`, the system SHALL read the initial values of all form cont
 
 #### Scenario: Display matches form defaults on page load
 - **WHEN** the page finishes loading
-- **THEN** the display title reads "STATUS", the title font size is 16px, and the progress bar shows 60%
+- **THEN** the display title reads "STATUS", the title font size is 16px, the status font size is 14px, and the progress bar shows the default fraction

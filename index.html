@@ -39,14 +39,15 @@
     }
 
     :root {
-      --glass-bg: rgba(255, 255, 255, 0.15);
-      --glass-blur: blur(12px);
-      --glass-border: rgba(255, 255, 255, 0.3);
-      --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+      --glass-bg: rgba(255, 255, 255, 0.18);
+      --glass-blur: blur(20px);
+      --glass-border: rgba(255, 255, 255, 0.4);
+      --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      --theme-color: #ffffff;
     }
 
     .glass {
-      background: var(--glass-bg);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.08) 100%);
       -webkit-backdrop-filter: var(--glass-blur);
       backdrop-filter: var(--glass-blur);
       border: 1px solid var(--glass-border);
@@ -62,9 +63,16 @@
     .progress-title {
       writing-mode: vertical-rl;
       text-orientation: mixed;
-      color: rgba(255, 255, 255, 0.8);
+      color: color-mix(in srgb, var(--theme-color) 80%, transparent);
       font-weight: bold;
       letter-spacing: 1px;
+      transition: font-size 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Progress Bar: Vertical Status */
+    .progress-status {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
       transition: font-size 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
@@ -75,18 +83,18 @@
       border-radius: 999px;
       position: relative;
       overflow: hidden;
-      background: var(--glass-bg);
+      background: rgba(255, 255, 255, 0.12);
       -webkit-backdrop-filter: var(--glass-blur);
       backdrop-filter: var(--glass-blur);
-      border: 1px solid var(--glass-border);
-      box-shadow: var(--glass-shadow);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.1), inset 0 1px 2px rgba(255, 255, 255, 0.15);
     }
 
     /* Progress Bar: Glass Fill */
     .glass-fill {
       width: 100%;
       height: 100%;
-      background: rgba(255, 255, 255, 0.9);
+      background: color-mix(in srgb, var(--theme-color) 90%, transparent);
       transform-origin: bottom;
       transform: scaleY(0);
       transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -177,6 +185,17 @@
           <label for="progressVal" class="block text-sm text-white/70 mb-1">進度值</label>
           <input type="range" id="progressVal" min="0" max="20" value="12" class="glass-range w-full" />
         </div>
+        
+        <div>
+          <label for="themeColor" class="block text-sm text-white/70 mb-1">主題色彩</label>
+          <input type="color" id="themeColor" value="#ffffff"
+                 class="glass-input w-full h-10 rounded-lg cursor-pointer outline-none focus:ring-1 focus:ring-white/40" />
+        </div>
+        
+        <div>
+          <label for="statusSize" class="block text-sm text-white/70 mb-1">狀態字大 (10-24px)</label>
+          <input type="range" id="statusSize" min="10" max="24" value="14" class="glass-range w-full" />
+        </div>
       </form>
       <footer class="mt-auto pt-4 border-t border-white/10 text-center text-xs text-white/50 space-y-1">
         <p>
@@ -204,7 +223,7 @@
         </div>
 
         <!-- Fraction Display (align bottom) -->
-        <span id="displayPercent" class="text-sm text-white/80 self-end pb-1">0/20</span>
+        <span id="displayPercent" class="progress-status self-end pb-1" style="font-size: 14px; color: color-mix(in srgb, var(--theme-color) 80%, transparent);">0/20</span>
       </div>
     </main>
 
@@ -240,11 +259,13 @@
       const initialTotal = document.getElementById('totalVal').value;
       const initialTitle = document.getElementById('titleText').value;
       const initialSize = document.getElementById('titleSize').value;
+      const initialStatusSize = document.getElementById('statusSize').value;
       
       document.getElementById('progressVal').max = initialTotal;
       updateProgressDisplay(initialProgress, initialTotal);
       displayTitle.textContent = initialTitle;
       displayTitle.style.fontSize = `${initialSize}px`;
+      document.getElementById('displayPercent').style.fontSize = `${initialStatusSize}px`;
 
       // Real-time sync via input event delegation (no submit needed)
       controlForm.addEventListener('input', (event) => {
@@ -268,6 +289,12 @@
           }
           case 'progressVal':
             updateProgressDisplay(target.value, document.getElementById('totalVal').value);
+            break;
+          case 'themeColor':
+            document.documentElement.style.setProperty('--theme-color', target.value);
+            break;
+          case 'statusSize':
+            document.getElementById('displayPercent').style.fontSize = `${target.value}px`;
             break;
         }
       });
