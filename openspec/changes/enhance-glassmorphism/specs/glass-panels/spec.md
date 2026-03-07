@@ -1,0 +1,43 @@
+## MODIFIED Requirements
+
+### Requirement: Glassmorphism CSS custom properties
+The page SHALL define CSS custom properties on `:root` for the glassmorphism effect: `--glass-bg` (`rgba(255,255,255,0.18)`), `--glass-blur` (`blur(20px)`), `--glass-border` (`rgba(255,255,255,0.4)`), and `--glass-shadow` (`0 8px 32px rgba(31,38,135,0.25), inset 0 1px 0 rgba(255,255,255,0.15)`).
+
+#### Scenario: CSS custom properties defined
+- **WHEN** the page stylesheet is loaded
+- **THEN** `:root` SHALL define `--glass-bg` as `rgba(255,255,255,0.18)`, `--glass-blur` as `blur(20px)`, `--glass-border` as `rgba(255,255,255,0.4)`, and `--glass-shadow` as a multi-layer shadow with outer depth and inset top highlight
+
+#### Scenario: Custom properties are reusable
+- **WHEN** a new element needs glassmorphism styling
+- **THEN** applying the CSS custom properties (or the `.glass` utility class) SHALL produce the correct enhanced glass effect without duplicating style values
+
+### Requirement: Glassmorphism panel styling
+Both the `<aside>` and `<main>` panels SHALL have enhanced glassmorphism styling applied: a diagonal gradient background (`linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 100%)`), `backdrop-filter: blur(20px)`, a semi-transparent border (`rgba(255,255,255,0.4)`), and a multi-layer box-shadow with outer depth and inset highlight.
+
+#### Scenario: Aside panel glassmorphism
+- **WHEN** the `<aside>` panel is rendered
+- **THEN** it SHALL have the `.glass` class applied with enhanced glassmorphism properties, though its dark background override (`rgba(15,15,30,0.95)`) SHALL remain and visually dominate
+
+#### Scenario: Main panel glassmorphism
+- **WHEN** the `<main>` panel is rendered
+- **THEN** it SHALL display a clearly visible frosted-glass effect with a diagonal gradient background, 20px backdrop blur, bright semi-transparent border, and multi-layer shadow including an inset top highlight
+
+### Requirement: Reusable glass utility class
+The `.glass` CSS class SHALL apply enhanced glassmorphism properties: a diagonal gradient background for color depth, `backdrop-filter` using `--glass-blur`, a `1px solid` border using `--glass-border`, and `box-shadow` using `--glass-shadow` (which includes both outer shadow and inset highlight).
+
+#### Scenario: Glass class applies full enhanced effect
+- **WHEN** the `.glass` class is added to any HTML element
+- **THEN** that element SHALL display a gradient glass background (`linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 100%)`), a 20px backdrop blur, a border with `rgba(255,255,255,0.4)`, and a multi-layer box-shadow with both outer depth and inset top-edge highlight
+
+## ADDED Requirements
+
+### Requirement: Enhanced glass track visibility
+The `.glass-track` element SHALL have enhanced glassmorphism properties that make it clearly distinguishable within the main glass panel: a brighter semi-transparent background, a more visible border, and a subtle glow shadow.
+
+#### Scenario: Glass track stands out in main panel
+- **WHEN** the `.glass-track` element is rendered inside the `<main>` panel
+- **THEN** it SHALL have a background of at least `rgba(255,255,255,0.12)`, a border of at least `rgba(255,255,255,0.5)`, and a box-shadow that includes both a subtle outer glow and an inset highlight
+
+#### Scenario: Glass track contrast with glass fill
+- **WHEN** the progress bar is partially filled
+- **THEN** the `.glass-track` background and border SHALL be visible enough to clearly define the track boundary, providing contrast between the unfilled track area and the white `.glass-fill`
