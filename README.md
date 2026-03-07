@@ -2,8 +2,7 @@
 
 一個適用於 `OBS Studio` 瀏覽器來源的垂直進度條小工具，把質感進度條搬進你的直播畫面。
 
-<!-- TODO: Add preview video/screenshot -->
-<!-- [preview.webm](https://github.com/user-attachments/assets/PLACEHOLDER) -->
+![preview.png](./docs/preview.png)
 
 ## 功能
 
@@ -37,13 +36,13 @@
 
 ### 1. 加入 OBS
 
-1. 在 `OBS Studio` 中新增一個 **瀏覽器來源（Browser Source）**，尺寸 2000x800（或依需求調整）
+1. 在 `OBS Studio` 中新增一個 **瀏覽器來源（Browser Source）**，尺寸 1600x800（或依需求調整）
 2. 將網址 `https://slider.obs.琳.tw/` 貼入 URL 欄位
 3. 如需多實例，可在網址後加上 `?instance=your-name` 參數
 4. 調整位置使得小工具顯示在畫面適當位置，同時讓控制面板維持在可視窗口之外的範圍  
    適當的新增尺寸寬度，或是按 ⇄ 面板翻轉按鈕，讓控制面板顯示在另一側
 
-<!-- TODO: Add screenshot of OBS browser source setup -->
+![1.png](./docs/1.png)
 
 ### 2. 設定您的小工具
 
@@ -51,7 +50,7 @@
 2. 在左側控制面板中調整標題文字、數值範圍、主題色彩、字型及版面配置
 3. 右側顯示區域會即時反映所有變更
 
-<!-- TODO: Add screenshot of control panel -->
+![2.png](./docs/2.png)
 
 ### 3. 儲存預設
 
@@ -59,7 +58,7 @@
 2. 點選儲存按鈕，將目前設定存入 localStorage
 3. 日後可隨時載入或刪除已儲存的預設
 
-<!-- TODO: Add screenshot of preset management -->
+![3.png](./docs/3.png)
 
 ## URL 參數
 
