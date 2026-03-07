@@ -193,6 +193,22 @@
                 class="glass-input w-8 h-8 text-sm text-white/90 rounded-lg flex items-center justify-center cursor-pointer select-none" title="翻轉面板">⇄</button>
       </div>
       <form id="controlForm" class="space-y-5">
+
+        <!-- Preset Management -->
+        <div class="space-y-2 pb-4 mb-1 border-b border-white/10">
+          <label class="block text-sm text-white/70 mb-1">預設管理</label>
+          <select id="presetSelect"
+                  class="glass-input w-full px-3 py-2 rounded-lg text-white/90 outline-none focus:ring-1 focus:ring-white/40 cursor-pointer">
+          </select>
+          <div class="flex gap-2">
+            <input type="text" id="presetName" placeholder="預設名稱..."
+                   class="glass-input flex-1 min-w-0 px-3 py-2 rounded-lg text-white/90 placeholder-white/40 outline-none focus:ring-1 focus:ring-white/40" />
+            <button type="button" id="presetSave"
+                    class="glass-input flex-shrink-0 whitespace-nowrap px-3 py-2 rounded-lg text-white/90 cursor-pointer select-none hover:bg-white/20 transition-colors">儲存</button>
+            <button type="button" id="presetDelete"
+                    class="glass-input flex-shrink-0 whitespace-nowrap px-3 py-2 rounded-lg text-white/90 cursor-pointer select-none hover:bg-white/20 transition-colors">刪除</button>
+          </div>
+        </div>
         
         <div>
           <label for="titleText" class="block text-sm text-white/70 mb-1">標題文字</label>
@@ -274,6 +290,102 @@
   </div>
 
   <script>
+    // --- Preset Persistence (namespace + CRUD) ---
+    function getStorageKey() {
+      const params = new URLSearchParams(window.location.search);
+      const instance = params.get('instance') || 'default';
+      return `obs-slider-${instance}-presets`;
+    }
+
+    function loadAllPresets() {
+      try {
+        return JSON.parse(localStorage.getItem(getStorageKey())) || {};
+      } catch { return {}; }
+    }
+
+    function saveAllPresets(presets) {
+      localStorage.setItem(getStorageKey(), JSON.stringify(presets));
+    }
+
+    function savePreset(name) {
+      const trimmed = (name || '').trim();
+      if (!trimmed) return;
+      const presets = loadAllPresets();
+      presets[trimmed] = {
+        titleText: document.getElementById('titleText').value,
+        titleSize: Number(document.getElementById('titleSize').value),
+        totalVal: Number(document.getElementById('totalVal').value),
+        progressVal: Number(document.getElementById('progressVal').value),
+        themeColor: document.getElementById('themeColor').value,
+        statusSize: Number(document.getElementById('statusSize').value),
+        fontFamily: document.getElementById('fontFamily').value
+      };
+      saveAllPresets(presets);
+      refreshPresetDropdown();
+      document.getElementById('presetSelect').value = trimmed;
+    }
+
+    function loadPreset(name) {
+      const presets = loadAllPresets();
+      const preset = presets[name];
+      if (!preset) return;
+
+      const fields = ['titleText', 'titleSize', 'totalVal', 'progressVal', 'themeColor', 'statusSize', 'fontFamily'];
+      for (const key of fields) {
+        if (preset[key] !== undefined) {
+          const el = document.getElementById(key);
+          if (el) el.value = preset[key];
+        }
+      }
+
+      // Sync totalVal → progressVal max
+      const totalEl = document.getElementById('totalVal');
+      const progressEl = document.getElementById('progressVal');
+      progressEl.max = Math.max(1, Number(totalEl.value) || 1);
+      if (Number(progressEl.value) > Number(progressEl.max)) {
+        progressEl.value = progressEl.max;
+      }
+
+      // Apply theme color
+      const hex = (preset.themeColor || '').trim();
+      if (/^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/.test(hex)) {
+        document.documentElement.style.setProperty('--theme-color', hex);
+        document.getElementById('themeColor').style.borderLeftColor = hex;
+      }
+
+      // Apply font
+      if (preset.fontFamily && preset.fontFamily.trim()) {
+        loadGoogleFont(preset.fontFamily.trim());
+        applyFont(preset.fontFamily.trim());
+      }
+
+      // Sync display
+      document.getElementById('displayTitle').textContent = document.getElementById('titleText').value || '吃了幾碗飯';
+      document.getElementById('displayTitle').style.fontSize = `${document.getElementById('titleSize').value}px`;
+      document.getElementById('displayPercent').style.fontSize = `${document.getElementById('statusSize').value}px`;
+      updateProgressDisplay(progressEl.value, totalEl.value);
+    }
+
+    function deletePreset(name) {
+      const presets = loadAllPresets();
+      delete presets[name];
+      saveAllPresets(presets);
+      refreshPresetDropdown();
+    }
+
+    function refreshPresetDropdown() {
+      const select = document.getElementById('presetSelect');
+      const presets = loadAllPresets();
+      const names = Object.keys(presets).sort();
+      select.innerHTML = '';
+      for (const n of names) {
+        const opt = document.createElement('option');
+        opt.value = n;
+        opt.textContent = n;
+        select.appendChild(opt);
+      }
+    }
+
     const FALLBACK_FONTS = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
 
     function loadGoogleFont(fontName) {
@@ -327,7 +439,20 @@
       const controlForm = document.getElementById('controlForm');
       const displayTitle = document.getElementById('displayTitle');
 
-      // Initialize display with form default values
+      // Initialize default preset if none exist, then auto-load first
+      refreshPresetDropdown();
+      let presets = loadAllPresets();
+      if (Object.keys(presets).length === 0) {
+        savePreset('default');
+        presets = loadAllPresets();
+      }
+      const presetNames = Object.keys(presets).sort();
+      if (presetNames.length > 0) {
+        document.getElementById('presetSelect').value = presetNames[0];
+        loadPreset(presetNames[0]);
+      }
+
+      // Initialize display with form values (handles both preset-loaded and default cases)
       const initialProgress = document.getElementById('progressVal').value;
       const initialTotal = document.getElementById('totalVal').value;
       const initialTitle = document.getElementById('titleText').value;
@@ -340,7 +465,7 @@
       displayTitle.style.fontSize = `${initialSize}px`;
       document.getElementById('displayPercent').style.fontSize = `${initialStatusSize}px`;
 
-      // Apply default font
+      // Apply font (may already be set by preset, but ensures correct state)
       const initialFont = document.getElementById('fontFamily').value;
       applyFont(initialFont);
 
@@ -404,6 +529,26 @@
         container.classList.toggle('flex-row-reverse');
         display.classList.toggle('justify-end');
         display.classList.toggle('justify-start');
+      });
+
+      // Preset event handlers
+      document.getElementById('presetSelect').addEventListener('change', (e) => {
+        if (e.target.value) loadPreset(e.target.value);
+      });
+
+      document.getElementById('presetSave').addEventListener('click', () => {
+        const nameInput = document.getElementById('presetName');
+        const select = document.getElementById('presetSelect');
+        const name = nameInput.value.trim() || select.value;
+        if (name) {
+          savePreset(name);
+          nameInput.value = '';
+        }
+      });
+
+      document.getElementById('presetDelete').addEventListener('click', () => {
+        const select = document.getElementById('presetSelect');
+        if (select.value) deletePreset(select.value);
       });
     });
   </script>

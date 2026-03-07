@@ -4,7 +4,7 @@
 
 Defines the user interface controls for preset management within the control panel.
 
-## ADDED Requirements
+## Requirements
 
 ### Requirement: Preset controls placement
 The preset management controls SHALL be placed at the top of the control form, before the existing form controls.
@@ -45,6 +45,10 @@ The system SHALL provide a "Save" button that saves the current form control val
 #### Scenario: Clicking Save persists current settings
 - **WHEN** the user enters name "test" and clicks the Save button
 - **THEN** the current form values SHALL be persisted as preset "test"
+
+#### Scenario: Empty name overwrites selected preset
+- **WHEN** the preset name input is empty and a preset is selected in the dropdown
+- **THEN** clicking Save SHALL overwrite the selected preset with the current form values
 
 ### Requirement: Delete button
 The system SHALL provide a "Delete" button that deletes the currently selected preset from the dropdown.

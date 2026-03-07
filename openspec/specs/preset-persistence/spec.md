@@ -4,7 +4,7 @@
 
 Defines the localStorage-based persistence layer for saving, loading, and deleting named presets, including per-instance namespace isolation.
 
-## ADDED Requirements
+## Requirements
 
 ### Requirement: Namespace resolution from URL parameter
 The system SHALL read the `instance` query parameter from the URL using `URLSearchParams`. The localStorage key SHALL be `obs-slider-<instance>-presets`. If no `instance` parameter is present, the key SHALL be `obs-slider-default-presets`.
@@ -39,9 +39,9 @@ The system SHALL save the current values of all form controls as a named preset 
 - **WHEN** a preset "morning" already exists and the user saves again with the name "morning"
 - **THEN** the stored "morning" preset SHALL be updated with the current form control values
 
-#### Scenario: Empty preset name rejected
+#### Scenario: Empty preset name overwrites selected preset
 - **WHEN** the user attempts to save a preset with an empty or whitespace-only name
-- **THEN** the system SHALL NOT save the preset
+- **THEN** the system SHALL use the currently selected preset name from the dropdown (`#presetSelect`) as the save target, effectively overwriting the selected preset with the current form control values
 
 ### Requirement: Load preset
 The system SHALL apply a saved preset's values to all form controls and trigger the real-time sync to update the display.
