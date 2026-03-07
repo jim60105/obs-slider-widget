@@ -11,7 +11,7 @@ The `<body>` SHALL contain a horizontal flex container with two child panels: an
 
 #### Scenario: Default flex layout structure
 - **WHEN** the page is rendered in default state
-- **THEN** the body SHALL contain a flex container with `<aside>` on the left (~300px width) and `<main>` on the right (flex-1, filling remaining space)
+- **THEN** the body SHALL contain a flex container with `<aside>` on the left (~330px width) and `<main>` on the right (flex-1, filling remaining space)
 
 #### Scenario: Reversed flex layout structure
 - **WHEN** the `flex-row-reverse` class is added to the parent flex container
