@@ -2,16 +2,16 @@
 
 ## Purpose
 
-Provides configurable font size control for the status/fraction display text, allowing users to adjust text size from 10px to 24px with a default of 14px.
+Provides configurable font size control for the status/fraction display text, allowing users to adjust text size from 10px to 24px with a default of 24px.
 
 ## Requirements
 
 ### Requirement: Status font size control
-The widget SHALL provide a range slider that controls the font size of the status/fraction display text (`#displayPercent`), allowing values from 10px to 24px with a default of 14px.
+The widget SHALL provide a range slider that controls the font size of the status/fraction display text (`#displayPercent`), allowing values from 10px to 24px with a default of 24px.
 
 #### Scenario: Status font size slider applies default on page load
 - **WHEN** the page loads
-- **THEN** the status/fraction text SHALL have `font-size: 14px`
+- **THEN** the status/fraction text SHALL have `font-size: 24px`
 
 #### Scenario: Status font size slider updates text size
 - **WHEN** the user drags the status font size slider to 20

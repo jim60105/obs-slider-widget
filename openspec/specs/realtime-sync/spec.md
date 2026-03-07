@@ -72,4 +72,4 @@ On `DOMContentLoaded`, the system SHALL read the initial values of all form cont
 
 #### Scenario: Display matches form defaults on page load
 - **WHEN** the page finishes loading
-- **THEN** the display title reads "STATUS", the title font size is 16px, the status font size is 14px, and the progress bar shows the default fraction
+- **THEN** the display title reads "吃了幾碗飯", the title font size is 32px, the status font size is 24px, and the progress bar shows the default fraction

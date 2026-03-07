@@ -14,22 +14,22 @@ The controls panel SHALL display a heading with the text "控制台" at the top 
 - **THEN** the controls panel displays a heading "控制台" above all form controls
 
 ### Requirement: Title text input
-The controls panel SHALL contain a text input field labeled for the display title, with a default value of "STATUS".
+The controls panel SHALL contain a text input field labeled for the display title, with a default value of "吃了幾碗飯".
 
 #### Scenario: Text input present with default value
 - **WHEN** the page loads
-- **THEN** a text input with the value "STATUS" is visible in the controls panel
+- **THEN** a text input with the value "吃了幾碗飯" is visible in the controls panel
 
 #### Scenario: Text input accepts user input
 - **WHEN** the user types into the title text input
 - **THEN** the input value updates to reflect the typed text
 
 ### Requirement: Font size range slider
-The controls panel SHALL contain a range slider for controlling the display title font size, with `min="12"`, `max="32"`, and `value="16"`.
+The controls panel SHALL contain a range slider for controlling the display title font size, with `min="12"`, `max="32"`, and `value="32"`.
 
 #### Scenario: Font size slider present with default value
 - **WHEN** the page loads
-- **THEN** a range slider for font size is visible, set to 16
+- **THEN** a range slider for font size is visible, set to 32
 
 #### Scenario: Font size slider constrains range
 - **WHEN** the user drags the font size slider
@@ -47,11 +47,11 @@ The controls panel SHALL contain a range slider for controlling the progress per
 - **THEN** the slider value stays within the range 0–100
 
 ### Requirement: Status font size range slider
-The controls panel SHALL contain a range slider for controlling the status/fraction text font size, with `min="10"`, `max="24"`, and `value="14"`.
+The controls panel SHALL contain a range slider for controlling the status/fraction text font size, with `min="10"`, `max="24"`, and `value="24"`.
 
 #### Scenario: Status font size slider present with default value
 - **WHEN** the page loads
-- **THEN** a range slider for status font size is visible, set to 14
+- **THEN** a range slider for status font size is visible, set to 24
 
 #### Scenario: Status font size slider constrains range
 - **WHEN** the user drags the status font size slider
