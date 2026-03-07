@@ -3,10 +3,9 @@ schema: spec-driven
 # Project context (optional)
 # This is shown to AI when creating artifacts.
 # Add your tech stack, conventions, style guides, domain knowledge, etc.
-# Example:
-  context: |
-    Tech stack: HTML, Tailwind CSS, Pure JS, no frameworks, static website
-    We use conventional commits
+context: |
+  Tech stack: HTML, Tailwind CSS, Pure JS, no frameworks, static website
+  We use conventional commits
 
 # Per-artifact rules (optional)
 # Add custom rules for specific artifacts.
