@@ -35,8 +35,12 @@ The page layout SHALL occupy the full viewport height (`100vh`) and width (`100v
 - **THEN** the layout SHALL fill the entire viewport with no scrollbars visible
 
 ### Requirement: System font configuration
-The page SHALL use a system font stack ('Segoe UI', Tahoma, Geneva, Verdana, sans-serif) configured via Tailwind's font family customization and applied as the default font.
+The page SHALL use "UoqMunThenKhung" from Google Fonts as the primary font, with a system font stack ('Segoe UI', Tahoma, Geneva, Verdana, sans-serif) as fallback. The Tailwind font family configuration SHALL include "UoqMunThenKhung" as the first entry in the `sans` font family. The default Google Font SHALL be loaded via a `<link>` stylesheet in `<head>`.
 
-#### Scenario: System fonts applied
+#### Scenario: Default Google Font applied
 - **WHEN** text is rendered on the page
-- **THEN** the font family SHALL be 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif (in that priority order)
+- **THEN** the font family SHALL start with "UoqMunThenKhung" followed by the fallback system fonts ('Segoe UI', Tahoma, Geneva, Verdana, sans-serif)
+
+#### Scenario: Fallback to system fonts
+- **WHEN** "UoqMunThenKhung" fails to load (e.g., no internet)
+- **THEN** the font family SHALL fall back to 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif

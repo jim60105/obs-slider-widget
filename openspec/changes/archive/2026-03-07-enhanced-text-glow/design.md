@@ -31,5 +31,5 @@ Use two or more `text-shadow` layers with increasing blur radius to create a nat
 
 ## Risks / Trade-offs
 
-- [Glow may reduce readability on light backgrounds] → Mitigated by using `80%` opacity in the glow color via `color-mix`, matching the existing text color approach
+- [Glow may reduce readability on light backgrounds] → Mitigated by using reduced glow opacity (`30%`/`15%` in the two `text-shadow` layers via `color-mix`), keeping the glow subtle while maintaining visibility
 - [Inline style on `#displayPercent` is harder to maintain] → Acceptable trade-off; this follows the existing pattern and keeps the glow in sync with the dynamically-set color

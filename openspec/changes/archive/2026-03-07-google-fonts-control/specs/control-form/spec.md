@@ -1,11 +1,11 @@
 ## ADDED Requirements
 
 ### Requirement: Font name text input
-The controls panel SHALL contain a text input field with `id="fontFamily"` labeled "字型名稱", with a default value of "Yusei Magic".
+The controls panel SHALL contain a text input field with `id="fontFamily"` labeled "字型名稱", with a default value of "UoqMunThenKhung".
 
 #### Scenario: Font input present with default value
 - **WHEN** the page loads
-- **THEN** a text input labeled "字型名稱" with the value "Yusei Magic" is visible in the controls panel
+- **THEN** a text input labeled "字型名稱" with the value "UoqMunThenKhung" is visible in the controls panel
 
 #### Scenario: Font input accepts user input
 - **WHEN** the user types a font name into the font family text input

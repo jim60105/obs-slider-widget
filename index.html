@@ -8,13 +8,16 @@
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
+  <!-- Google Fonts: Default Font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=UoqMunThenKhung&display=swap">
+
   <!-- Tailwind Configuration -->
   <script>
     tailwind.config = {
       theme: {
         extend: {
           fontFamily: {
-            sans: ["'Segoe UI'", 'Tahoma', 'Geneva', 'Verdana', 'sans-serif'],
+            sans: ["'UoqMunThenKhung'", "'Segoe UI'", 'Tahoma', 'Geneva', 'Verdana', 'sans-serif'],
           }
         }
       }
@@ -63,6 +66,8 @@
     .progress-title {
       transition: font-size 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       color: color-mix(in srgb, var(--theme-color) 80%, transparent);
+      text-shadow: 0 0 6px color-mix(in srgb, var(--theme-color) 30%, transparent),
+                   0 0 18px color-mix(in srgb, var(--theme-color) 15%, transparent);
       font-weight: bold;
       letter-spacing: 1px;
       writing-mode: vertical-rl;
@@ -72,6 +77,8 @@
     /* Progress Bar: Vertical Status */
     .progress-status {
       transition: font-size 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      text-shadow: 0 0 6px color-mix(in srgb, var(--theme-color) 30%, transparent),
+                   0 0 18px color-mix(in srgb, var(--theme-color) 15%, transparent);
       writing-mode: vertical-rl;
       text-orientation: mixed;
     }
@@ -86,8 +93,8 @@
       overflow: hidden;
       -webkit-backdrop-filter: var(--glass-blur);
       backdrop-filter: var(--glass-blur);
-      box-shadow: 0 0 12px rgba(255, 255, 255, 0.1), inset 0 1px 2px rgba(255, 255, 255, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.15), inset 0 1px 2px rgba(255, 255, 255, 0.15);
+      border: 2px solid rgba(255, 255, 255, 0.5);
     }
 
     /* Progress Bar: Glass Fill */
@@ -196,6 +203,13 @@
           <label for="statusSize" class="block text-sm text-white/70 mb-1">狀態尺寸 (10 ~ 24px)</label>
           <input type="range" id="statusSize" min="10" max="24" value="24" class="glass-range w-full" />
         </div>
+        
+        <div>
+          <label for="fontFamily" class="block text-sm text-white/70 mb-1">字型名稱</label>
+          <input type="text" id="fontFamily" value="UoqMunThenKhung" placeholder="輸入字型名稱..."
+                 class="glass-input w-full px-3 py-2 rounded-lg text-white/90 placeholder-white/40 outline-none focus:ring-1 focus:ring-white/40" />
+          <p class="text-xs text-white/40 mt-1">從 <a href="https://fonts.google.com" target="_blank" rel="noopener noreferrer" class="underline hover:text-white/60">fonts.google.com</a> 取得可用字型名稱</p>
+        </div>
       </form>
       <footer class="mt-auto pt-4 border-t border-white/10 text-center text-xs text-white/50 space-y-1">
         <p>
@@ -230,6 +244,35 @@
   </div>
 
   <script>
+    const FALLBACK_FONTS = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
+
+    function loadGoogleFont(fontName) {
+      const encoded = encodeURIComponent(fontName);
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = `https://fonts.googleapis.com/css2?family=${encoded}&display=swap`;
+      document.head.appendChild(link);
+    }
+
+    function applyFont(fontName) {
+      document.body.style.fontFamily = `'${fontName}', ${FALLBACK_FONTS}`;
+    }
+
+    function debounce(fn, delay) {
+      let timer;
+      return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => fn(...args), delay);
+      };
+    }
+
+    const debouncedLoadAndApply = debounce((fontName) => {
+      if (fontName.trim()) {
+        loadGoogleFont(fontName.trim());
+        applyFont(fontName.trim());
+      }
+    }, 500);
+
     function updateProgressDisplay(current, total) {
       const validTotal = Math.max(1, Number(total) || 1);
       const validCurrent = Math.max(0, Math.min(validTotal, Number(current) || 0));
@@ -267,6 +310,10 @@
       displayTitle.style.fontSize = `${initialSize}px`;
       document.getElementById('displayPercent').style.fontSize = `${initialStatusSize}px`;
 
+      // Apply default font
+      const initialFont = document.getElementById('fontFamily').value;
+      applyFont(initialFont);
+
       // Real-time sync via input event delegation (no submit needed)
       controlForm.addEventListener('input', (event) => {
         const target = event.target;
@@ -295,6 +342,9 @@
             break;
           case 'statusSize':
             document.getElementById('displayPercent').style.fontSize = `${target.value}px`;
+            break;
+          case 'fontFamily':
+            debouncedLoadAndApply(target.value);
             break;
         }
       });

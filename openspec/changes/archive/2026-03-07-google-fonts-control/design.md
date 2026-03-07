@@ -6,7 +6,7 @@ The OBS slider widget is a single-file HTML application using Tailwind CSS and p
 
 **Goals:**
 - Allow users to select any Google Font by typing its name
-- Load "Yusei Magic" as the default font on page load
+- Load "UoqMunThenKhung" as the default font on page load
 - Dynamically load and apply fonts from Google Fonts API
 - Apply the font globally across both control panel and display area
 
@@ -26,7 +26,7 @@ The OBS slider widget is a single-file HTML application using Tailwind CSS and p
 **Alternative considered**: Using the Google Fonts JS API or `FontFace` API — unnecessarily complex for this use case.
 
 ### 2. Default font loaded via static `<link>` in `<head>`
-**Decision**: Load "Yusei Magic" via a standard `<link>` tag in `<head>` rather than dynamically injecting it on page load.
+**Decision**: Load "UoqMunThenKhung" via a standard `<link>` tag in `<head>` rather than dynamically injecting it on page load.
 
 **Rationale**: A static `<link>` in `<head>` follows Google Fonts best practices, enabling the browser to start fetching the font as early as possible. This avoids FOUT (Flash of Unstyled Text) for the default font.
 
