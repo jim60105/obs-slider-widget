@@ -7,7 +7,7 @@ Renders status/fraction text in horizontal writing mode with centered stacked li
 ## Requirements
 
 ### Requirement: Status text displays in vertical writing mode
-The status/fraction text (`#displayPercent`) SHALL render in horizontal writing mode with `text-align: center`, displaying each part of the fraction on its own line in a stacked column layout. The `writing-mode: vertical-rl` and `text-orientation: mixed` CSS properties SHALL be removed.
+The status/fraction text (`#displayPercent`) SHALL render in horizontal writing mode with `text-align: center` and `font-weight: bold`, displaying each part of the fraction on its own line in a stacked column layout. The `writing-mode: vertical-rl` and `text-orientation: mixed` CSS properties SHALL be removed.
 
 #### Scenario: Fraction text renders horizontally in stacked lines
 - **WHEN** the widget displays a fraction value such as "12/20"

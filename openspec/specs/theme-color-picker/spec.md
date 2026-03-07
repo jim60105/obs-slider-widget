@@ -1,18 +1,18 @@
 ## ADDED Requirements
 
 ### Requirement: Theme color CSS variable
-The system SHALL define a `--theme-color` CSS custom property on `:root` with a default value of `#ffffff`.
+The system SHALL define a `--theme-color` CSS custom property on `:root` with a default value of `#707`.
 
 #### Scenario: Default theme color on page load
 - **WHEN** the page loads without user interaction
-- **THEN** `--theme-color` on `:root` SHALL be `#ffffff`
+- **THEN** `--theme-color` on `:root` SHALL be `#707`
 
 ### Requirement: Color picker control
-The control form SHALL include a text input element with id `themeColor` and default value `#ffffff`, labeled "主題色彩" (Theme Color). The text input SHALL have an inline color indicator via `style="border-left: 6px solid #ffffff"` displaying the current color as its left border.
+The control form SHALL include a text input element with id `themeColor` and default value `#707`, labeled "主題色彩" (Theme Color). The text input SHALL have an inline color indicator via `style="border-left: 6px solid #707"` displaying the current color as its left border.
 
 #### Scenario: Text input present in control panel
 - **WHEN** the page loads
-- **THEN** the control form SHALL contain a text input with id `themeColor` and value `#ffffff`
+- **THEN** the control form SHALL contain a text input with id `themeColor` and value `#707`
 
 #### Scenario: Color picker label
 - **WHEN** the page loads
@@ -20,11 +20,11 @@ The control form SHALL include a text input element with id `themeColor` and def
 
 #### Scenario: Color indicator border present
 - **WHEN** the page loads
-- **THEN** the `themeColor` input SHALL have `border-left: 6px solid #ffffff` displaying the default color
+- **THEN** the `themeColor` input SHALL have `border-left: 6px solid #707` displaying the default color
 
 #### Scenario: Placeholder text
 - **WHEN** the page loads
-- **THEN** the text input SHALL display placeholder text `#ffffff` indicating the expected hex format
+- **THEN** the text input SHALL display placeholder text `#707` indicating the expected hex format
 
 ### Requirement: Theme color applies to progress bar fill
 The `.glass-fill` background SHALL use `--theme-color` at 90% opacity via `color-mix(in srgb, var(--theme-color) 90%, transparent)`.
@@ -34,7 +34,7 @@ The `.glass-fill` background SHALL use `--theme-color` at 90% opacity via `color
 - **THEN** the `.glass-fill` background SHALL render as the theme color at 90% mix with transparent
 
 #### Scenario: Default fill appearance
-- **WHEN** `--theme-color` is `#ffffff` (default)
+- **WHEN** `--theme-color` is `#707` (default)
 - **THEN** the `.glass-fill` background SHALL appear as white at 90% opacity, matching the original design
 
 ### Requirement: Theme color applies to title text
