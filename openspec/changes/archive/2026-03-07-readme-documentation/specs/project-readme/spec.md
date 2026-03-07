@@ -16,7 +16,7 @@ The README SHALL begin with a level-1 heading containing the project name and a 
 
 #### Scenario: Title format
 - **WHEN** the README is rendered
-- **THEN** the first line SHALL be a heading like `# 玻璃風 OBS 滑桿小工具 <https://slider.obs.琳.tw/>`
+- **THEN** the first line SHALL be a heading like `# OBS 垂直進度條小工具 <https://slider.obs.琳.tw/>`
 
 ### Requirement: Feature list section
 The README SHALL contain a `## 功能` section with an emoji-bulleted list summarizing the widget's key features. The list SHALL cover at minimum: glassmorphism progress bar, control panel, named preset save/load/delete, multi-instance support via URL parameter, layout flip, OBS auto-detection with transparent background, real-time sync, vertical text display, full-height progress bar, Google Fonts selector, and theme color picker.
@@ -33,18 +33,18 @@ The README SHALL contain a section for a video preview embed (using GitHub-compa
 - **THEN** a video embed or screenshot image SHALL be visible before the feature list
 
 ### Requirement: Page description section
-The README SHALL contain a `## 頁面說明` section (or equivalent) describing the single-page architecture. It SHALL explain that the page serves both as the control panel and the OBS widget display, and how OBS auto-detection switches between modes.
+The README SHALL contain a `## 頁面說明` section (or equivalent) describing the single-page architecture. It SHALL explain that the page contains both the control panel (left) and the widget display (right) on the same page, and that users open the page directly in OBS browser source. It SHALL describe how OBS auto-detection makes the display area transparent for stream overlay.
 
 #### Scenario: Page description content
 - **WHEN** a reader views the page description section
-- **THEN** it SHALL explain the dual-purpose single-page design and OBS transparent background detection
+- **THEN** it SHALL explain the single-page design with left control panel and right display area, and how OBS mode makes the display area transparent
 
 ### Requirement: Usage instructions section
-The README SHALL contain a `## 使用方式` section with numbered steps guiding users through: (1) opening the settings page, (2) configuring the widget controls, (3) saving a preset, and (4) adding the URL as an OBS browser source with recommended dimensions. Each major step SHALL include placeholder references for future screenshots.
+The README SHALL contain a `## 使用方式` section with numbered steps guiding users through: (1) adding the URL as an OBS browser source, (2) using OBS Interact to configure the widget via the built-in control panel, and (3) saving a preset for persistence. The steps SHALL reflect that users open the page directly in OBS — not in a separate browser first. Each major step SHALL include placeholder references for future screenshots.
 
 #### Scenario: Step completeness
 - **WHEN** a reader follows the usage instructions
-- **THEN** there SHALL be clearly numbered steps covering configuration, preset saving, and OBS browser source setup
+- **THEN** there SHALL be clearly numbered steps starting with adding to OBS first, then configuring via Interact, then saving presets
 
 #### Scenario: Screenshot placeholders
 - **WHEN** a reader views the usage instructions
