@@ -2,7 +2,7 @@
 
 一個適用於 `OBS Studio` 瀏覽器來源的垂直進度條小工具，把質感進度條搬進你的直播畫面。
 
-![preview.png](./docs/preview.png)
+![preview.webp](./docs/preview.webp)
 
 ## 功能
 
