@@ -30,7 +30,6 @@
       };
       saveAllPresets(presets);
       refreshPresetDropdown();
-      document.getElementById('presetSelect').value = trimmed;
     }
 
     function loadPreset(name) {
@@ -82,17 +81,195 @@
     }
 
     function refreshPresetDropdown() {
-      const select = document.getElementById('presetSelect');
+      const dropdown = document.getElementById('presetSelect');
+      const optionsList = dropdown.querySelector('.custom-dropdown-options');
       const presets = loadAllPresets();
       const names = Object.keys(presets).sort();
-      select.innerHTML = '';
+
+      // Clear existing options
+      optionsList.innerHTML = '';
+
+      // Create <li> elements for each preset
       for (const n of names) {
-        const opt = document.createElement('option');
-        opt.value = n;
-        opt.textContent = n;
-        select.appendChild(opt);
+        const li = document.createElement('li');
+        li.className = 'custom-dropdown-option';
+        li.setAttribute('role', 'option');
+        li.setAttribute('aria-selected', 'false');
+        li.id = `preset-opt-${n.replace(/\s+/g, '-')}`;
+        li.dataset.value = n;
+        li.tabIndex = -1;
+        li.textContent = n;
+        optionsList.appendChild(li);
       }
     }
+
+    // --- Custom Dropdown Behavior ---
+    function openDropdown(dropdown) {
+      dropdown.classList.add('open');
+      const trigger = dropdown.querySelector('.custom-dropdown-trigger');
+      if (trigger) {
+        trigger.setAttribute('aria-expanded', 'true');
+      }
+      // Focus first option or currently selected option
+      const options = dropdown.querySelectorAll('[role="option"]');
+      const currentValue = dropdown.dataset.value;
+      let toFocus = null;
+      for (const opt of options) {
+        if (opt.dataset.value === currentValue) {
+          toFocus = opt;
+          break;
+        }
+      }
+      if (!toFocus && options.length > 0) {
+        toFocus = options[0];
+      }
+      if (toFocus) {
+        toFocus.focus();
+        if (trigger) {
+          trigger.setAttribute('aria-activedescendant', toFocus.id || '');
+        }
+      }
+    }
+
+    function closeDropdown(dropdown) {
+      dropdown.classList.remove('open');
+      const trigger = dropdown.querySelector('.custom-dropdown-trigger');
+      if (trigger) {
+        trigger.setAttribute('aria-expanded', 'false');
+        trigger.removeAttribute('aria-activedescendant');
+        trigger.focus();
+      }
+    }
+
+    function selectOption(dropdown, option) {
+      const value = option.dataset.value;
+      const text = option.textContent;
+      dropdown.dataset.value = value;
+      const trigger = dropdown.querySelector('.custom-dropdown-trigger');
+      if (trigger) {
+        trigger.textContent = text;
+      }
+      // Mark selected option with aria-selected
+      const allOptions = dropdown.querySelectorAll('[role="option"]');
+      for (const opt of allOptions) {
+        opt.setAttribute('aria-selected', opt === option ? 'true' : 'false');
+      }
+      // Dispatch change event
+      dropdown.dispatchEvent(new CustomEvent('change', {
+        bubbles: true,
+        detail: { value, text }
+      }));
+      closeDropdown(dropdown);
+    }
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', (event) => {
+      const dropdowns = document.querySelectorAll('.custom-dropdown.open');
+      for (const dropdown of dropdowns) {
+        if (!dropdown.contains(event.target)) {
+          closeDropdown(dropdown);
+        }
+      }
+    });
+
+    // Toggle dropdown on trigger click
+    document.addEventListener('click', (event) => {
+      const trigger = event.target.closest('.custom-dropdown-trigger');
+      if (!trigger) return;
+      const dropdown = trigger.closest('.custom-dropdown');
+      if (!dropdown) return;
+      event.stopPropagation();
+      if (dropdown.classList.contains('open')) {
+        closeDropdown(dropdown);
+      } else {
+        // Close other open dropdowns first
+        const openDropdowns = document.querySelectorAll('.custom-dropdown.open');
+        for (const d of openDropdowns) {
+          closeDropdown(d);
+        }
+        openDropdown(dropdown);
+      }
+    });
+
+    // Option selection on click
+    document.addEventListener('click', (event) => {
+      const option = event.target.closest('[role="option"]');
+      if (!option) return;
+      const dropdown = option.closest('.custom-dropdown');
+      if (!dropdown) return;
+      event.stopPropagation();
+      selectOption(dropdown, option);
+    });
+
+    // Keyboard navigation for dropdowns
+    document.addEventListener('keydown', (event) => {
+      const dropdown = event.target.closest('.custom-dropdown');
+      if (!dropdown) return;
+
+      const trigger = dropdown.querySelector('.custom-dropdown-trigger');
+      const options = Array.from(dropdown.querySelectorAll('[role="option"]'));
+      if (options.length === 0) return;
+
+      const isOpen = dropdown.classList.contains('open');
+      const focusedOption = document.activeElement.closest('[role="option"]');
+      let currentIndex = focusedOption ? options.indexOf(focusedOption) : -1;
+
+      switch (event.key) {
+        case 'ArrowDown':
+          event.preventDefault();
+          if (!isOpen) {
+            openDropdown(dropdown);
+          } else {
+            const nextIndex = currentIndex < options.length - 1 ? currentIndex + 1 : 0;
+            options[nextIndex].focus();
+            if (trigger) {
+              trigger.setAttribute('aria-activedescendant', options[nextIndex].id || '');
+            }
+          }
+          break;
+
+        case 'ArrowUp':
+          event.preventDefault();
+          if (!isOpen) {
+            openDropdown(dropdown);
+          } else {
+            const prevIndex = currentIndex > 0 ? currentIndex - 1 : options.length - 1;
+            options[prevIndex].focus();
+            if (trigger) {
+              trigger.setAttribute('aria-activedescendant', options[prevIndex].id || '');
+            }
+          }
+          break;
+
+        case 'Enter':
+          if (isOpen && focusedOption) {
+            event.preventDefault();
+            selectOption(dropdown, focusedOption);
+          } else if (!isOpen && event.target === trigger) {
+            event.preventDefault();
+            openDropdown(dropdown);
+          }
+          break;
+
+        case 'Escape':
+          if (isOpen) {
+            event.preventDefault();
+            closeDropdown(dropdown);
+          }
+          break;
+
+        case ' ':
+          // Space to open/select (common accessibility pattern)
+          if (!isOpen && event.target === trigger) {
+            event.preventDefault();
+            openDropdown(dropdown);
+          } else if (isOpen && focusedOption) {
+            event.preventDefault();
+            selectOption(dropdown, focusedOption);
+          }
+          break;
+      }
+    });
 
     const FALLBACK_FONTS = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
 
@@ -156,7 +333,10 @@
       }
       const presetNames = Object.keys(presets).sort();
       if (presetNames.length > 0) {
-        document.getElementById('presetSelect').value = presetNames[0];
+        const presetSelect = document.getElementById('presetSelect');
+        presetSelect.dataset.value = presetNames[0];
+        const trigger = presetSelect.querySelector('.custom-dropdown-trigger');
+        if (trigger) trigger.textContent = presetNames[0];
         loadPreset(presetNames[0]);
       }
 
@@ -239,24 +419,45 @@
         display.classList.toggle('justify-start');
       });
 
-      // Preset event handlers
-      document.getElementById('presetSelect').addEventListener('change', (e) => {
-        if (e.target.value) loadPreset(e.target.value);
+      // Preset event handlers (custom dropdown dispatches change event on container)
+      document.getElementById('presetSelect').addEventListener('change', () => {
+        const presetSelect = document.getElementById('presetSelect');
+        const selectedValue = presetSelect.dataset.value;
+        if (selectedValue) loadPreset(selectedValue);
       });
 
       document.getElementById('presetSave').addEventListener('click', () => {
         const nameInput = document.getElementById('presetName');
-        const select = document.getElementById('presetSelect');
-        const name = nameInput.value.trim() || select.value;
+        const presetSelect = document.getElementById('presetSelect');
+        const name = nameInput.value.trim() || presetSelect.dataset.value;
         if (name) {
           savePreset(name);
           nameInput.value = '';
+          // Update dropdown's data-value and trigger text to show the saved preset
+          presetSelect.dataset.value = name;
+          const trigger = presetSelect.querySelector('.custom-dropdown-trigger');
+          if (trigger) trigger.textContent = name;
         }
       });
 
       document.getElementById('presetDelete').addEventListener('click', () => {
-        const select = document.getElementById('presetSelect');
-        if (select.value) deletePreset(select.value);
+        const presetSelect = document.getElementById('presetSelect');
+        const currentValue = presetSelect.dataset.value;
+        if (currentValue) {
+          deletePreset(currentValue);
+          // After deletion, select first remaining preset or clear selection
+          const presets = loadAllPresets();
+          const names = Object.keys(presets).sort();
+          const trigger = presetSelect.querySelector('.custom-dropdown-trigger');
+          if (names.length > 0) {
+            presetSelect.dataset.value = names[0];
+            if (trigger) trigger.textContent = names[0];
+            loadPreset(names[0]);
+          } else {
+            presetSelect.dataset.value = '';
+            if (trigger) trigger.textContent = '';
+          }
+        }
       });
 
       // --- README Panel ---

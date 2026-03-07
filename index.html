@@ -85,9 +85,16 @@
         <!-- Preset Management -->
         <div class="space-y-2 pb-4 mb-1 border-b border-white/10">
           <label class="block text-sm text-white/70 mb-1">預設管理</label>
-          <select id="presetSelect"
-                  class="glass-input w-full px-3 py-2 rounded-lg text-white/90 outline-none focus:ring-1 focus:ring-white/40 cursor-pointer">
-          </select>
+          <div id="presetSelect" class="custom-dropdown" data-value="">
+            <button type="button" class="custom-dropdown-trigger glass-input w-full px-3 py-2 rounded-lg text-white/90 outline-none focus:ring-1 focus:ring-white/40 cursor-pointer text-left flex justify-between items-center"
+                    aria-haspopup="listbox" aria-expanded="false">
+              <span class="custom-dropdown-text">選擇預設</span>
+              <span class="custom-dropdown-chevron">▼</span>
+            </button>
+            <ul class="custom-dropdown-options" role="listbox" hidden>
+              <!-- Options populated by JS -->
+            </ul>
+          </div>
           <div class="flex gap-2">
             <input type="text" id="presetName" placeholder="預設名稱..."
                    class="glass-input flex-1 min-w-0 px-3 py-2 rounded-lg text-white/90 placeholder-white/40 outline-none focus:ring-1 focus:ring-white/40" />

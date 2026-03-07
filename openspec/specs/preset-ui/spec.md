@@ -14,7 +14,7 @@ The preset management controls SHALL be placed at the top of the control form, b
 - **THEN** the preset UI section SHALL appear above the title text input in the control panel
 
 ### Requirement: Preset select dropdown
-The system SHALL provide a `<select>` dropdown listing all saved preset names for the current namespace. The dropdown SHALL update whenever presets are saved or deleted.
+The system SHALL provide a custom dropdown (not a native `<select>`) listing all saved preset names for the current namespace. The dropdown SHALL use the custom dropdown component defined in the `custom-dropdown` specification. The dropdown SHALL update whenever presets are saved or deleted.
 
 #### Scenario: Dropdown lists all presets
 - **WHEN** presets "alpha", "beta", and "gamma" exist
@@ -58,10 +58,10 @@ The system SHALL provide a "Delete" button that deletes the currently selected p
 - **THEN** the "test" preset SHALL be removed from localStorage and the dropdown
 
 ### Requirement: Load on select change
-The system SHALL load and apply the selected preset when the user changes the dropdown selection.
+The system SHALL load and apply the selected preset when the user changes the dropdown selection via the custom dropdown component.
 
 #### Scenario: Changing dropdown selection loads preset
-- **WHEN** the user changes the dropdown selection from "alpha" to "beta"
+- **WHEN** the user selects "beta" from the custom dropdown (previously showing "alpha")
 - **THEN** the "beta" preset's values SHALL be applied to all form controls and the display
 
 ### Requirement: Glassmorphism styling
