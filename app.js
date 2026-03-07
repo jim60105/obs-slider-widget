@@ -258,4 +258,25 @@
         const select = document.getElementById('presetSelect');
         if (select.value) deletePreset(select.value);
       });
+
+      // --- README Panel ---
+      fetch('./README.md')
+        .then(response => {
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          return response.text();
+        })
+        .then(md => {
+          const readmeContent = document.getElementById('readmeContent');
+          if (readmeContent && typeof marked !== 'undefined') {
+            readmeContent.innerHTML = marked.parse(md);
+          } else if (readmeContent) {
+            readmeContent.innerHTML = '<p class="text-white/50 text-sm">Markdown 解析器載入失敗</p>';
+          }
+        })
+        .catch(err => {
+          const readmeContent = document.getElementById('readmeContent');
+          if (readmeContent) {
+            readmeContent.innerHTML = '<p class="text-white/50 text-sm">無法載入 README.md</p>';
+          }
+        });
     });

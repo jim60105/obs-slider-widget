@@ -29,11 +29,14 @@
   <meta name="apple-mobile-web-app-title" content="OBS Slider" />
   <link rel="manifest" href="/site.webmanifest" />
 
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tailwind CSS CDN (with typography plugin) -->
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
 
   <!-- Google Fonts: Default Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=UoqMunThenKhung&display=swap">
+
+  <!-- Markdown Parser -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
   <!-- Tailwind Configuration -->
   <script>
@@ -60,10 +63,17 @@
 </head>
 
 <body class="font-sans">
-  <!-- Two-Panel Layout -->
+  <!-- Three-Panel Layout -->
   <div id="layoutContainer" class="flex h-screen w-screen overflow-hidden gap-1">
 
-    <!-- Left Panel: Controls Area -->
+    <!-- Left Panel: README -->
+    <section id="readmePanel" class="glass w-[60vw] flex flex-col p-6 overflow-y-auto" style="scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.2) transparent;">
+      <div id="readmeContent" class="prose prose-invert prose-sm max-w-none">
+        <p class="text-white/50 text-sm">載入中...</p>
+      </div>
+    </section>
+
+    <!-- Middle Panel: Controls Area -->
     <aside class="glass w-[330px] flex flex-col p-6 overflow-y-auto" style="scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.2) transparent;">
       <div class="flex items-center justify-between mb-4">
         <h2 class="text-lg font-semibold text-white/90">控制台</h2>

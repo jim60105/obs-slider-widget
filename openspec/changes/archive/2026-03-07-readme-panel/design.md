@@ -35,11 +35,11 @@ Users currently have no in-app access to documentation — they must leave the a
 
 **Rationale**: Since `#layoutContainer` uses `flex` (default `flex-row`), a first-child panel naturally appears on the left. When `flex-row-reverse` is toggled by the flip button, the first child moves to the right — so the README panel automatically participates in flipping with zero additional JavaScript. This is the simplest approach and requires no changes to the existing flip logic.
 
-### Panel element: `<section>` with fixed width
+### Panel element: `<section>` with viewport-relative width
 
-**Choice**: Use a `<section>` element with a fixed width (`w-[360px]`) matching the glassmorphism style.
+**Choice**: Use a `<section>` element with a viewport-relative width (`w-[60vw]`) matching the glassmorphism style.
 
-**Rationale**: Using `<section>` semantically separates it from the control `<aside>` and the display `<main>`. A fixed width prevents the panel from competing for flex space with the display area. The width is slightly wider than the control panel (`w-[300px]`) to accommodate rendered markdown content comfortably.
+**Rationale**: Using `<section>` semantically separates it from the control `<aside>` and the display `<main>`. A viewport-relative width prevents the panel from competing for flex space with the display area. The width is set to 60vw to accommodate rendered markdown content comfortably while remaining responsive across different screen sizes.
 
 ### OBS hiding: CSS rule on `html.obs`
 

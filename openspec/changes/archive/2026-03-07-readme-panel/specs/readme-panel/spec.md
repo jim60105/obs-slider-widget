@@ -1,7 +1,7 @@
 ## ADDED Requirements
 
 ### Requirement: README panel element
-The page SHALL contain a `<section id="readmePanel">` element as the first child of `#layoutContainer`, before the control panel `<aside>`. The panel SHALL have a fixed width (`w-[360px]`), use the `.glass` class for glassmorphism styling, and be scrollable via `overflow-y: auto`.
+The page SHALL contain a `<section id="readmePanel">` element as the first child of `#layoutContainer`, before the control panel `<aside>`. The panel SHALL have a viewport-relative width (`w-[60vw]`), use the `.glass` class for glassmorphism styling, and be scrollable via `overflow-y: auto`.
 
 #### Scenario: README panel is present in layout
 - **WHEN** the page loads in a regular browser
