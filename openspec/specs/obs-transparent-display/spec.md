@@ -1,4 +1,10 @@
-## ADDED Requirements
+# OBS Transparent Display
+
+## Purpose
+
+Removes glassmorphism styling from the display panel when running inside OBS browser source.
+
+## Requirements
 
 ### Requirement: Transparent display panel in OBS mode
 When the page is running inside an OBS browser source (detected by the `obs` class on `<html>`), the `<main>` display panel SHALL have a fully transparent appearance with no glassmorphism styling. Specifically, `background` SHALL be `transparent`, `border` SHALL be `none`, `box-shadow` SHALL be `none`, and `backdrop-filter` SHALL be `none`.

@@ -1,4 +1,10 @@
-## ADDED Requirements
+# Control Panel Scroll
+
+## Purpose
+
+Enables vertical scrolling on the control panel when content overflows the viewport height.
+
+## Requirements
 
 ### Requirement: Aside panel scrolls vertically when content overflows
 The `<aside>` panel SHALL scroll vertically when its content exceeds the available viewport height. The aside SHALL use `overflow-y: auto` so the scrollbar only appears when content actually overflows.

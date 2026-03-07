@@ -1,4 +1,8 @@
-## ADDED Requirements
+## Purpose
+
+Provides a theme color control that updates CSS custom properties for widget theming.
+
+## Requirements
 
 ### Requirement: Theme color CSS variable
 The system SHALL define a `--theme-color` CSS custom property on `:root` with a default value of `#707`.

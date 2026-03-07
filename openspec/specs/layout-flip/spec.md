@@ -1,4 +1,10 @@
-## ADDED Requirements
+# Layout Flip
+
+## Purpose
+
+Provides a toggle button to flip the two-panel layout horizontally.
+
+## Requirements
 
 ### Requirement: Layout flip toggle button
 The control panel header SHALL contain a toggle button with a flip icon (⇄) that allows the user to flip the layout horizontally. The button SHALL be placed inline with the header text using flex layout. The button SHALL be outside the `<form>` element.

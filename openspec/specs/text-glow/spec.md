@@ -1,3 +1,7 @@
+## Purpose
+
+Applies themed glow effects to progress bar text elements via multi-layered text-shadow.
+
 ## Requirements
 
 ### Requirement: Progress title glow

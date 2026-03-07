@@ -1,3 +1,7 @@
+## Purpose
+
+Defines the structure and content requirements for the project README documentation.
+
 ## Requirements
 
 ### Requirement: README language and tone

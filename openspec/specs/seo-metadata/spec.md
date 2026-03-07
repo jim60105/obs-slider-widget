@@ -1,3 +1,7 @@
+## Purpose
+
+Defines SEO meta tags and Open Graph metadata for search engine visibility.
+
 ## Requirements
 
 ### Requirement: Robots meta tag

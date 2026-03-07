@@ -1,4 +1,10 @@
-## ADDED Requirements
+# Full-Height Track
+
+## Purpose
+
+Makes the glass progress bar track stretch to fill the full available vertical space.
+
+## Requirements
 
 ### Requirement: Full-height glass track
 The glass track SHALL stretch to fill the entire available vertical space of the display panel instead of using a fixed pixel height. The track container and its parent flex container SHALL use flex-grow or equivalent CSS to ensure the track expands vertically.

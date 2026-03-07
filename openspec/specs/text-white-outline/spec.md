@@ -1,3 +1,7 @@
+## Purpose
+
+Adds white outline to progress bar text for readability on varied OBS backgrounds.
+
 ## Requirements
 
 ### Requirement: Progress title white outline

@@ -1,3 +1,7 @@
+## Purpose
+
+Ensures the README.md file is served as a static file for runtime fetching.
+
 ## Requirements
 
 ### Requirement: README.md served as static file

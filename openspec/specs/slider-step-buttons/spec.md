@@ -1,4 +1,10 @@
-## ADDED Requirements
+# Slider Step Buttons
+
+## Purpose
+
+Adds increment/decrement buttons alongside the progress slider for precise value control.
+
+## Requirements
 
 ### Requirement: Step decrement button
 The control panel SHALL display a "−" button immediately to the left of the `progressVal` range slider. Clicking the button SHALL decrement the progress value by 1. The value SHALL NOT go below 0.
