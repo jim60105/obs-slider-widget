@@ -14,11 +14,11 @@ The controls panel SHALL display a heading with the text "控制台" at the top 
 - **THEN** the controls panel displays a heading "控制台" above all form controls
 
 ### Requirement: Title text input
-The controls panel SHALL contain a text input field labeled for the display title, with a default value of "吃了幾碗飯".
+The controls panel SHALL contain a text input field labeled for the display title, with a default value of "今天喝了幾杯飲料".
 
 #### Scenario: Text input present with default value
 - **WHEN** the page loads
-- **THEN** a text input with the value "吃了幾碗飯" is visible in the controls panel
+- **THEN** a text input with the value "今天喝了幾杯飲料" is visible in the controls panel
 
 #### Scenario: Text input accepts user input
 - **WHEN** the user types into the title text input

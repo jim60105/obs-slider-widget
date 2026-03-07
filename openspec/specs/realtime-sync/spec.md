@@ -72,7 +72,7 @@ On `DOMContentLoaded`, the system SHALL first resolve the instance namespace and
 
 #### Scenario: Display matches form defaults on page load
 - **WHEN** the page finishes loading and no presets exist
-- **THEN** the display title reads "吃了幾碗飯", the title font size is 32px, the status font size is 24px, and the progress bar shows the default fraction
+- **THEN** the display title reads "今天喝了幾杯飲料", the title font size is 32px, the status font size is 24px, and the progress bar shows the default fraction
 
 #### Scenario: Preset auto-loaded on page init
 - **WHEN** the page finishes loading and presets exist in the current namespace

@@ -68,7 +68,7 @@
       }
 
       // Sync display
-      document.getElementById('displayTitle').textContent = document.getElementById('titleText').value || '吃了幾碗飯';
+      document.getElementById('displayTitle').textContent = document.getElementById('titleText').value || '今天喝了幾杯飲料';
       document.getElementById('displayTitle').style.fontSize = `${document.getElementById('titleSize').value}px`;
       document.getElementById('displayPercent').style.fontSize = `${document.getElementById('statusSize').value}px`;
       updateProgressDisplay(progressEl.value, totalEl.value);
@@ -182,7 +182,7 @@
         const target = event.target;
         switch (target.id) {
           case 'titleText':
-            displayTitle.textContent = target.value || '吃了幾碗飯';
+            displayTitle.textContent = target.value || '今天喝了幾杯飲料';
             break;
           case 'titleSize':
             displayTitle.style.fontSize = `${target.value}px`;

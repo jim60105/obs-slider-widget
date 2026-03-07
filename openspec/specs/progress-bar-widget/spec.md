@@ -33,11 +33,11 @@ The glass track SHALL contain a fill child element that spans the full width and
 - **THEN** the fill element SHALL transition to `transform: scaleY(0.5)` with a 0.4s cubic-bezier ease, growing from the bottom
 
 ### Requirement: Vertical title text
-A title text element SHALL be displayed to the left of the glass track. The text SHALL use `writing-mode: vertical-rl` and `text-orientation: mixed`. The text SHALL have bold weight, subtle color, and letter-spacing. The default text SHALL be "吃了幾碗飯". The font size SHALL be dynamically adjustable via JavaScript, with a CSS transition for smooth font-size changes.
+A title text element SHALL be displayed to the left of the glass track. The text SHALL use `writing-mode: vertical-rl` and `text-orientation: mixed`. The text SHALL have bold weight, subtle color, and letter-spacing. The default text SHALL be "今天喝了幾杯飲料". The font size SHALL be dynamically adjustable via JavaScript, with a CSS transition for smooth font-size changes.
 
 #### Scenario: Title displays default text vertically
 - **WHEN** the page loads
-- **THEN** a vertical text element reading "吃了幾碗飯" SHALL appear to the left of the glass track, rendered with `writing-mode: vertical-rl`
+- **THEN** a vertical text element reading "今天喝了幾杯飲料" SHALL appear to the left of the glass track, rendered with `writing-mode: vertical-rl`
 
 #### Scenario: Title font size changes smoothly
 - **WHEN** the title font size is updated via JavaScript

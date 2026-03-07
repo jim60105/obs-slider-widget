@@ -103,7 +103,7 @@ python -m http.server 8000
 
 ## 授權
 
-<img src="https://github.com/user-attachments/assets/ad34de93-c0fb-4a76-a006-48a8b4d8b263" alt="agplv3" width="300" />
+<img src="./docs/AGPLv3_Logo.svg" alt="agplv3" width="300" />
 
 [GNU AFFERO GENERAL PUBLIC LICENSE Version 3](./LICENSE)
 
