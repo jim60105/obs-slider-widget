@@ -21,9 +21,20 @@
     }
   </script>
 
+  <!-- OBS Detection -->
+  <script>
+    if (navigator.userAgent.indexOf('OBS') !== -1) {
+      document.documentElement.classList.add('obs');
+    }
+  </script>
+
   <!-- Global Styles -->
   <style>
     body {
+      background: #1a1a2e;
+    }
+
+    html.obs body {
       background: transparent;
     }
 
@@ -40,6 +51,11 @@
       backdrop-filter: var(--glass-blur);
       border: 1px solid var(--glass-border);
       box-shadow: var(--glass-shadow);
+    }
+
+    /* Controls: Always-dark aside panel */
+    aside {
+      background: rgba(15, 15, 30, 0.95);
     }
 
     /* Progress Bar: Vertical Title */
@@ -152,8 +168,14 @@
         </div>
         
         <div>
-          <label for="progressVal" class="block text-sm text-white/70 mb-1">進度值 (0-100%)</label>
-          <input type="range" id="progressVal" min="0" max="100" value="60" class="glass-range w-full" />
+          <label for="totalVal" class="block text-sm text-white/70 mb-1">總數值</label>
+          <input type="number" id="totalVal" min="1" value="20"
+                 class="glass-input w-full px-3 py-2 rounded-lg text-white/90 placeholder-white/40 outline-none focus:ring-1 focus:ring-white/40" />
+        </div>
+        
+        <div>
+          <label for="progressVal" class="block text-sm text-white/70 mb-1">進度值</label>
+          <input type="range" id="progressVal" min="0" max="20" value="12" class="glass-range w-full" />
         </div>
       </form>
       <footer class="mt-auto pt-4 border-t border-white/10 text-center text-xs text-white/50 space-y-1">
@@ -172,38 +194,40 @@
     <!-- Right Panel: Display Area -->
     <main class="glass flex-1 flex items-center justify-center p-8">
       <!-- Progress Bar Widget -->
-      <div class="flex items-end gap-4">
-        <!-- Vertical Title -->
-        <span id="displayTitle" class="progress-title" style="font-size: 16px;">STATUS</span>
+      <div class="flex items-stretch gap-4">
+        <!-- Vertical Title (align top) -->
+        <span id="displayTitle" class="progress-title self-start" style="font-size: 16px;">STATUS</span>
 
         <!-- Glass Track -->
         <div id="myProgressBar" class="glass-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
           <div id="myProgressFill" class="glass-fill"></div>
         </div>
 
-        <!-- Percentage Display -->
-        <span id="displayPercent" class="text-sm text-white/80 pb-1">0%</span>
+        <!-- Fraction Display (align bottom) -->
+        <span id="displayPercent" class="text-sm text-white/80 self-end pb-1">0/20</span>
       </div>
     </main>
 
   </div>
 
   <script>
-    function updateProgressDisplay(percent) {
-      const validPercent = Math.max(0, Math.min(100, Number(percent) || 0));
+    function updateProgressDisplay(current, total) {
+      const validTotal = Math.max(1, Number(total) || 1);
+      const validCurrent = Math.max(0, Math.min(validTotal, Number(current) || 0));
 
       const progressBar = document.getElementById('myProgressBar');
       const progressFill = document.getElementById('myProgressFill');
       const displayPercent = document.getElementById('displayPercent');
 
       if (progressFill) {
-        progressFill.style.transform = `scaleY(${validPercent / 100})`;
+        progressFill.style.transform = `scaleY(${validCurrent / validTotal})`;
       }
       if (displayPercent) {
-        displayPercent.textContent = `${validPercent}%`;
+        displayPercent.textContent = `${validCurrent}/${validTotal}`;
       }
       if (progressBar) {
-        progressBar.setAttribute('aria-valuenow', validPercent);
+        progressBar.setAttribute('aria-valuenow', validCurrent);
+        progressBar.setAttribute('aria-valuemax', validTotal);
       }
     }
 
@@ -213,10 +237,12 @@
 
       // Initialize display with form default values
       const initialProgress = document.getElementById('progressVal').value;
+      const initialTotal = document.getElementById('totalVal').value;
       const initialTitle = document.getElementById('titleText').value;
       const initialSize = document.getElementById('titleSize').value;
       
-      updateProgressDisplay(initialProgress);
+      document.getElementById('progressVal').max = initialTotal;
+      updateProgressDisplay(initialProgress, initialTotal);
       displayTitle.textContent = initialTitle;
       displayTitle.style.fontSize = `${initialSize}px`;
 
@@ -230,8 +256,18 @@
           case 'titleSize':
             displayTitle.style.fontSize = `${target.value}px`;
             break;
+          case 'totalVal': {
+            const newTotal = Math.max(1, Number(target.value) || 1);
+            const progressSlider = document.getElementById('progressVal');
+            progressSlider.max = newTotal;
+            if (Number(progressSlider.value) > newTotal) {
+              progressSlider.value = newTotal;
+            }
+            updateProgressDisplay(progressSlider.value, newTotal);
+            break;
+          }
           case 'progressVal':
-            updateProgressDisplay(target.value);
+            updateProgressDisplay(target.value, document.getElementById('totalVal').value);
             break;
         }
       });
