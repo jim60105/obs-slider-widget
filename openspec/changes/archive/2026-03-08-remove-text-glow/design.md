@@ -35,7 +35,18 @@ This is a straightforward removal — no architectural complexity, no data model
 
 **Rationale:** The entire capability is being eliminated, not modified. All three requirements (title glow, status glow, percent glow) are removed together.
 
+### Decision 3: Remove box-shadow from glass elements and slider thumbs
+
+**Choice:** Remove all `box-shadow` properties from `.glass`, `.glass-track`, and slider thumb pseudo-elements (`::-webkit-slider-thumb`, `::-moz-range-thumb`).
+
+**Rationale:** Consistent with the text-glow removal, simplifying visual effects across the widget improves maintainability and reduces visual noise. The glassmorphism effect remains recognizable through the backdrop blur, gradient background, and border — the box-shadow is not essential to the design language.
+
+**Alternatives considered:**
+- **Keep box-shadow on some elements:** Rejected — inconsistent approach; either commit to simplified styling or keep all shadows.
+- **Replace with simpler shadow:** Rejected — adds complexity for marginal visual improvement.
+
 ## Risks / Trade-offs
 
 - **[Risk] Visual regression — text may look "flat" without glow** → Accepted. The white outline provides readability, and the glow was broken anyway.
 - **[Risk] `--theme-color` variable may appear unused** → Not a risk. The `--theme-color` variable is still used for element text color (`color-mix(in srgb, var(--theme-color) 80%, transparent)`) and glass fill styling.
+- **[Risk] Glass panels may look "flat" without box-shadow** → Accepted. The backdrop blur, gradient, and border provide sufficient visual depth.

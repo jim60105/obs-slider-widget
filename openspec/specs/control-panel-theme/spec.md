@@ -38,3 +38,14 @@ The `<option>` elements within `select.glass-input` dropdowns SHALL have an expl
 #### Scenario: Dynamically added options inherit styling
 - **WHEN** new `<option>` elements are added to the dropdown via JavaScript (e.g., after saving a preset)
 - **THEN** the new options SHALL also display with the dark background and white text via CSS inheritance, without requiring inline styles
+
+### Requirement: Slider thumb styling without shadow
+The slider thumb pseudo-elements (`::-webkit-slider-thumb` and `::-moz-range-thumb`) SHALL NOT include `box-shadow` properties. The thumb styling SHALL rely on background color and border for visual definition.
+
+#### Scenario: Webkit slider thumb without shadow
+- **WHEN** the `.glass-range::-webkit-slider-thumb` is rendered
+- **THEN** it SHALL NOT have a `box-shadow` property applied
+
+#### Scenario: Mozilla slider thumb without shadow
+- **WHEN** the `.glass-range::-moz-range-thumb` is rendered
+- **THEN** it SHALL NOT have a `box-shadow` property applied

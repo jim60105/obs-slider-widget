@@ -44,18 +44,20 @@ Both the `<aside>` and `<main>` panels SHALL have enhanced glassmorphism styling
 - **THEN** it SHALL display a clearly visible frosted-glass effect with a diagonal gradient background, 20px backdrop blur, bright semi-transparent border, and multi-layer shadow including an inset top highlight
 
 ### Requirement: Reusable glass utility class
-The `.glass` CSS class SHALL apply enhanced glassmorphism properties: a diagonal gradient background for color depth, `backdrop-filter` using `--glass-blur`, a `1px solid` border using `--glass-border`, and `box-shadow` using `--glass-shadow` (which includes both outer shadow and inset highlight).
+The `.glass` CSS class SHALL apply enhanced glassmorphism properties: a diagonal gradient background for color depth, `backdrop-filter` using `--glass-blur`, and a `1px solid` border using `--glass-border`. The `.glass` class SHALL NOT include a `box-shadow` property.
 
-#### Scenario: Glass class applies full enhanced effect
+#### Scenario: Glass class applies effect without shadow
 - **WHEN** the `.glass` class is added to any HTML element
-- **THEN** that element SHALL display a gradient glass background (`linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 100%)`), a 20px backdrop blur, a border with `rgba(255,255,255,0.4)`, and a multi-layer box-shadow with both outer depth and inset top-edge highlight
+- **THEN** that element SHALL display a gradient glass background (`linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 100%)`), a 20px backdrop blur, and a border with `rgba(255,255,255,0.4)`
+- **AND** that element SHALL NOT have a `box-shadow` property applied
 
 ### Requirement: Enhanced glass track visibility
-The `.glass-track` element SHALL have enhanced glassmorphism properties that make it clearly distinguishable within the main glass panel: a brighter semi-transparent background, a thicker more visible border, and a strengthened glow shadow.
+The `.glass-track` element SHALL have enhanced glassmorphism properties that make it clearly distinguishable within the main glass panel: a brighter semi-transparent background and a thicker more visible border. The `.glass-track` element SHALL NOT include a `box-shadow` property.
 
-#### Scenario: Glass track stands out in main panel
+#### Scenario: Glass track stands out without shadow
 - **WHEN** the `.glass-track` element is rendered inside the `<main>` panel
-- **THEN** it SHALL have a background of at least `rgba(255,255,255,0.12)`, a `2px solid` border of at least `rgba(255,255,255,0.5)`, and a box-shadow that includes both a subtle outer glow (`0 0 15px rgba(255,255,255,0.15)`) and an inset highlight
+- **THEN** it SHALL have a background of at least `rgba(255,255,255,0.12)` and a `2px solid` border of at least `rgba(255,255,255,0.5)`
+- **AND** it SHALL NOT have a `box-shadow` property applied
 
 #### Scenario: Glass track contrast with glass fill
 - **WHEN** the progress bar is partially filled
