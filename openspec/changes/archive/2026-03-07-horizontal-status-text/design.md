@@ -6,9 +6,9 @@ The widget currently displays the fraction text ("3/20") beside the slider track
 
 **Goals:**
 
-- Replace vertical writing mode with horizontal text in a stacked column layout
+- Replace vertical writing mode with horizontal stacked text layout
 - Display fraction as three centered lines: current value, slash, total
-- Position the stacked fraction below the slider track, centered horizontally relative to the track
+- Position the stacked fraction to the right of the slider track, bottom-aligned
 
 **Non-Goals:**
 
@@ -28,11 +28,9 @@ The fraction display will use `innerHTML` with `<br>` tags to create line breaks
 
 The `.progress-status` element will use `text-align: center` to horizontally center each line of the stacked fraction. The element will use standard horizontal writing mode (removing `writing-mode` and `text-orientation` entirely).
 
-### Wrap track and status in a column flex container
+### Keep status as sibling in horizontal flex
 
-The slider track and status text will be wrapped in a flex column container so the status text sits below the track. The outer flex container remains horizontal for title and track-group, while the inner column stacks track and status vertically.
-
-**Alternative considered:** Using absolute positioning. Rejected because flex layout is already the pattern used throughout the widget and provides natural flow.
+The status text remains a sibling of the track in the existing horizontal flex container, positioned to the right of the track with `self-end` for bottom alignment. No wrapper element needed — the existing flex layout handles positioning naturally.
 
 ## Risks / Trade-offs
 

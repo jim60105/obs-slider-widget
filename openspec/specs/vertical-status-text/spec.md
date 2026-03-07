@@ -2,24 +2,24 @@
 
 ## Purpose
 
-Renders status/fraction text in vertical writing mode for a more compact, visually aligned display with title text.
+Renders status/fraction text in horizontal writing mode with centered stacked lines for a compact display below the slider track.
 
 ## Requirements
 
 ### Requirement: Status text displays in vertical writing mode
-The status/fraction text (`#displayPercent`) SHALL render in vertical writing mode using `writing-mode: vertical-rl` and `text-orientation: mixed`, matching the title text's vertical orientation.
+The status/fraction text (`#displayPercent`) SHALL render in horizontal writing mode with `text-align: center`, displaying each part of the fraction on its own line in a stacked column layout. The `writing-mode: vertical-rl` and `text-orientation: mixed` CSS properties SHALL be removed.
 
-#### Scenario: Fraction text renders vertically
+#### Scenario: Fraction text renders horizontally in stacked lines
 - **WHEN** the widget displays a fraction value such as "12/20"
-- **THEN** the status text SHALL render top-to-bottom using vertical-rl writing mode
+- **THEN** the status text SHALL render horizontally with current value, slash, and total each on a separate centered line
 
-#### Scenario: Mixed characters rotate naturally
-- **WHEN** the fraction text contains Latin characters and a slash (e.g., "12/20")
-- **THEN** the characters SHALL rotate with `text-orientation: mixed`, consistent with the title text behavior
+#### Scenario: Text uses standard horizontal writing mode
+- **WHEN** the widget renders the status text
+- **THEN** the `#displayPercent` element SHALL NOT have `writing-mode: vertical-rl` or `text-orientation: mixed` styles
 
 ### Requirement: Status text maintains bottom alignment
-The status text SHALL remain aligned to the bottom of its container (`self-end`) after applying vertical writing mode.
+The status text SHALL be positioned below the slider track, centered horizontally relative to the track, within a flex column container.
 
-#### Scenario: Status text anchored at bottom
-- **WHEN** the widget renders with vertical status text
-- **THEN** the `#displayPercent` element SHALL be positioned at the bottom of the flex container
+#### Scenario: Status text appears below the track
+- **WHEN** the widget renders with the status text
+- **THEN** the `#displayPercent` element SHALL be positioned below the slider track, centered horizontally within a shared column container
