@@ -12,5 +12,5 @@ The `<aside>` control panel SHALL have an opaque dark background regardless of w
 - **THEN** the `<aside>` control panel SHALL have an opaque dark background
 
 #### Scenario: Scrollbar blends with dark background
-- **WHEN** the control form scrollbar is visible within the opaque dark panel
+- **WHEN** the aside panel scrollbar is visible within the opaque dark panel
 - **THEN** the scrollbar thumb SHALL use a translucent white color (`rgba(255,255,255,0.2)`) and the track SHALL be transparent, matching the panel's dark aesthetic

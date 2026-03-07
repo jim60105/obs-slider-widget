@@ -8,7 +8,7 @@ Currently, the theme color picker uses `<input type="color">`, which relies on t
 
 **Goals:**
 - Replace `<input type="color">` with a text input accepting hex color codes, compatible with OBS browser source.
-- Provide a visual color preview swatch so users get immediate feedback without a native color dialog.
+- Provide a visual color indicator via a left border on the text input so users get immediate feedback without a native color dialog.
 - Validate hex input format before applying color changes.
 - Maintain real-time theme color updates on valid input.
 
@@ -19,15 +19,16 @@ Currently, the theme color picker uses `<input type="color">`, which relies on t
 
 ## Decisions
 
-### Decision 1: Text input with inline color swatch
+### Decision 1: Text input with border-left color indicator
 
-**Choice**: Use an `<input type="text">` with a small adjacent `<div>` as a color preview swatch.
+**Choice**: Use an `<input type="text">` with a thick left border (`border-left: 6px solid <color>`) as an inline color indicator.
 
-**Rationale**: This is the simplest OBS-compatible approach. A text input works universally across all browser environments, including OBS browser source. The swatch provides visual feedback that the native color input previously offered.
+**Rationale**: This is the simplest OBS-compatible approach. A text input works universally across all browser environments, including OBS browser source. The colored left border provides visual feedback that the native color input previously offered, without requiring a separate element.
 
 **Alternatives considered**:
 - *Custom color picker library*: Adds external dependencies, increases complexity, conflicts with the project's no-framework, single-file philosophy.
 - *Predefined color palette buttons*: Limits color choices, reduces flexibility compared to the current arbitrary color selection.
+- *Separate color swatch div*: Adds an extra element and flex layout; the border-left approach is simpler and more compact.
 
 ### Decision 2: Client-side hex validation via regex
 
@@ -35,13 +36,14 @@ Currently, the theme color picker uses `<input type="color">`, which relies on t
 
 **Rationale**: Lightweight, no dependencies, runs on every `input` event for real-time feedback. Both 3-digit shorthand (`#fff`) and 6-digit (`#ffffff`) hex formats are supported, matching common user expectations.
 
-### Decision 3: Layout — swatch beside text input in a flex row
+### Decision 3: Layout — border-left color indicator on the input
 
-**Choice**: Wrap the text input and swatch `<div>` in a `flex` container so the swatch sits to the left of the input.
+**Choice**: Use `border-left: 6px solid <color>` directly on the text input instead of a separate element. The input is full-width with no flex wrapper needed.
 
-**Rationale**: Keeps the control compact within the existing form layout. The swatch acts as an immediate visual indicator, while the text input remains the primary interaction element.
+**Rationale**: Eliminates the need for a flex container and a separate swatch `<div>`. The left border serves as an integrated color indicator, keeping the control compact and the markup minimal.
 
 ## Risks / Trade-offs
 
 - **[Less discoverable UX]** → Users must know hex color codes. Mitigated by providing a sensible default (`#ffffff`) and placeholder text showing the expected format.
 - **[No visual color browsing]** → Users cannot browse or pick colors visually. Accepted trade-off for OBS compatibility; users can use external color picker tools and paste hex values.
+- **[Subtle indicator]** → A 6px left border is less prominent than a dedicated color swatch, but keeps the UI clean and avoids extra DOM elements.

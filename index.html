@@ -41,6 +41,14 @@
       background: transparent;
     }
 
+    html.obs main {
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+
     :root {
       --glass-bg: rgba(255, 255, 255, 0.18);
       --glass-blur: blur(20px);
@@ -89,7 +97,7 @@
       border-radius: 999px;
       background: rgba(255, 255, 255, 0.12);
       width: 20px;
-      height: 400px;
+      flex: 1;
       overflow: hidden;
       -webkit-backdrop-filter: var(--glass-blur);
       backdrop-filter: var(--glass-blur);
@@ -159,17 +167,32 @@
       background: rgba(255, 255, 255, 0.2);
       height: 6px;
     }
+
+    aside::-webkit-scrollbar {
+      width: 6px;
+    }
+    aside::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 3px;
+    }
+    aside::-webkit-scrollbar-track {
+      background: transparent;
+    }
   </style>
 </head>
 
 <body class="font-sans">
   <!-- Two-Panel Layout -->
-  <div class="flex h-screen w-screen overflow-hidden gap-1">
+  <div id="layoutContainer" class="flex h-screen w-screen overflow-hidden gap-1">
 
     <!-- Left Panel: Controls Area -->
-    <aside class="glass w-[300px] flex flex-col justify-between p-6">
+    <aside class="glass w-[300px] flex flex-col p-6 overflow-y-auto" style="scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.2) transparent;">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-lg font-semibold text-white/90">控制台</h2>
+        <button type="button" id="flipLayout" aria-label="Flip layout"
+                class="glass-input w-8 h-8 text-sm text-white/90 rounded-lg flex items-center justify-center cursor-pointer select-none" title="翻轉面板">⇄</button>
+      </div>
       <form id="controlForm" class="space-y-5">
-        <h2 class="text-lg font-semibold text-white/90 mb-4">控制台</h2>
         
         <div>
           <label for="titleText" class="block text-sm text-white/70 mb-1">標題文字</label>
@@ -190,13 +213,20 @@
         
         <div>
           <label for="progressVal" class="block text-sm text-white/70 mb-1">進度值</label>
-          <input type="range" id="progressVal" min="0" max="20" value="12" class="glass-range w-full" />
+          <div class="flex items-center gap-2">
+            <button type="button" id="progressDec" aria-label="Decrease progress"
+                    class="glass-input w-12 h-10 text-xl font-bold text-white/90 rounded-lg flex items-center justify-center cursor-pointer select-none">−</button>
+            <input type="range" id="progressVal" min="0" max="20" value="12" class="glass-range flex-1" />
+            <button type="button" id="progressInc" aria-label="Increase progress"
+                    class="glass-input w-12 h-10 text-xl font-bold text-white/90 rounded-lg flex items-center justify-center cursor-pointer select-none">+</button>
+          </div>
         </div>
         
         <div>
           <label for="themeColor" class="block text-sm text-white/70 mb-1">主題色彩</label>
-          <input type="color" id="themeColor" value="#ffffff"
-                 class="glass-input w-full h-10 rounded-lg cursor-pointer outline-none focus:ring-1 focus:ring-white/40" />
+          <input type="text" id="themeColor" value="#ffffff" placeholder="#ffffff"
+                 class="glass-input w-full px-3 py-2 rounded-lg text-white/90 placeholder-white/40 outline-none focus:ring-1 focus:ring-white/40"
+                 style="border-left: 6px solid #ffffff;" />
         </div>
         
         <div>
@@ -225,9 +255,9 @@
     </aside>
 
     <!-- Right Panel: Display Area -->
-    <main class="glass flex-1 flex items-center justify-center p-8">
+    <main id="displayPanel" class="glass flex-1 flex items-stretch justify-end p-8">
       <!-- Progress Bar Widget -->
-      <div class="flex items-stretch gap-4">
+      <div class="flex items-stretch gap-4 h-full">
         <!-- Vertical Title (align top) -->
         <span id="displayTitle" class="progress-title self-start" style="font-size: 16px;">STATUS</span>
 
@@ -337,9 +367,14 @@
           case 'progressVal':
             updateProgressDisplay(target.value, document.getElementById('totalVal').value);
             break;
-          case 'themeColor':
-            document.documentElement.style.setProperty('--theme-color', target.value);
+          case 'themeColor': {
+            const hex = target.value.trim();
+            if (/^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/.test(hex)) {
+              document.documentElement.style.setProperty('--theme-color', hex);
+              target.style.borderLeftColor = hex;
+            }
             break;
+          }
           case 'statusSize':
             document.getElementById('displayPercent').style.fontSize = `${target.value}px`;
             break;
@@ -347,6 +382,28 @@
             debouncedLoadAndApply(target.value);
             break;
         }
+      });
+
+      document.getElementById('progressDec').addEventListener('click', () => {
+        const slider = document.getElementById('progressVal');
+        const newVal = Math.max(0, Number(slider.value) - 1);
+        slider.value = newVal;
+        slider.dispatchEvent(new Event('input', { bubbles: true }));
+      });
+
+      document.getElementById('progressInc').addEventListener('click', () => {
+        const slider = document.getElementById('progressVal');
+        const newVal = Math.min(Number(slider.max), Number(slider.value) + 1);
+        slider.value = newVal;
+        slider.dispatchEvent(new Event('input', { bubbles: true }));
+      });
+
+      document.getElementById('flipLayout').addEventListener('click', () => {
+        const container = document.getElementById('layoutContainer');
+        const display = document.getElementById('displayPanel');
+        container.classList.toggle('flex-row-reverse');
+        display.classList.toggle('justify-end');
+        display.classList.toggle('justify-start');
       });
     });
   </script>
