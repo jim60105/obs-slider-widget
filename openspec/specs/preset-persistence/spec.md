@@ -22,11 +22,15 @@ The system SHALL read the `instance` query parameter from the URL using `URLSear
 - **THEN** each tab SHALL read/write to `obs-slider-a-presets` and `obs-slider-b-presets` respectively, with no cross-contamination
 
 ### Requirement: Preset data structure
-Each preset SHALL be stored as a JSON object containing the keys: `titleText`, `titleSize`, `totalVal`, `progressVal`, `themeColor`, `statusSize`, `fontFamily`. All presets for a namespace SHALL be stored in a single localStorage entry as a JSON object mapping preset names to their settings objects.
+Each preset SHALL be stored as a JSON object containing the keys: `titleText`, `titleSize`, `totalVal`, `progressVal`, `themeColor`, `statusSize`, `fontFamily`, `panelBg`. The `panelBg` key SHALL be a boolean indicating whether the display panel glass background is enabled. All presets for a namespace SHALL be stored in a single localStorage entry as a JSON object mapping preset names to their settings objects.
 
 #### Scenario: Stored preset format
-- **WHEN** a preset named "default" is saved with titleText "Health", titleSize 28, totalVal 10, progressVal 5, themeColor "#ff0000", statusSize 20, fontFamily "Roboto"
-- **THEN** the localStorage entry SHALL contain `{"default": {"titleText": "Health", "titleSize": 28, "totalVal": 10, "progressVal": 5, "themeColor": "#ff0000", "statusSize": 20, "fontFamily": "Roboto"}}`
+- **WHEN** a preset named "default" is saved with titleText "Health", titleSize 28, totalVal 10, progressVal 5, themeColor "#ff0000", statusSize 20, fontFamily "Roboto", panelBg true
+- **THEN** the localStorage entry SHALL contain `{"default": {"titleText": "Health", "titleSize": 28, "totalVal": 10, "progressVal": 5, "themeColor": "#ff0000", "statusSize": 20, "fontFamily": "Roboto", "panelBg": true}}`
+
+#### Scenario: Backward compatibility with old presets
+- **WHEN** a preset saved before the `panelBg` field existed is loaded and lacks the `panelBg` key
+- **THEN** the `panelBg` toggle SHALL retain its current value (default: off) per the existing "Load preset with missing keys" behavior
 
 ### Requirement: Save preset
 The system SHALL save the current values of all form controls as a named preset to localStorage. If a preset with the same name already exists, it SHALL be overwritten.

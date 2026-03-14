@@ -94,6 +94,69 @@
       height: 100%;
     }
 
+    /* Display: Glass Panel Background */
+    .glass-panel-bg {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.08) 100%);
+      -webkit-backdrop-filter: var(--glass-blur);
+      backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--glass-border);
+      border-radius: 1rem;
+      padding: 1.5rem;
+    }
+
+    /* Display: Panel Background Default (off) */
+    #displayPanelBg {
+      transition: background 0.3s ease, border 0.3s ease, backdrop-filter 0.3s ease;
+    }
+
+    /* Controls: Toggle Switch */
+    .glass-toggle {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+
+    .glass-toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      position: absolute;
+    }
+
+    .glass-toggle-slider {
+      position: absolute;
+      inset: 0;
+      cursor: pointer;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid var(--glass-border);
+      transition: background 0.3s ease;
+    }
+
+    .glass-toggle-slider::before {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.7);
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .glass-toggle input:checked + .glass-toggle-slider {
+      background: rgba(255, 255, 255, 0.35);
+    }
+
+    .glass-toggle input:checked + .glass-toggle-slider::before {
+      transform: translateY(-50%) translateX(20px);
+      background: rgba(255, 255, 255, 0.95);
+    }
+
     /* Controls: Glass Input */
     .glass-input {
       background: rgba(255, 255, 255, 0.1);

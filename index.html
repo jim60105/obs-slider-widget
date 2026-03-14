@@ -151,8 +151,16 @@
                  class="glass-input w-full px-3 py-2 rounded-lg text-white/90 placeholder-white/40 outline-none focus:ring-1 focus:ring-white/40" />
           <p class="text-xs text-white/40 mt-1">從 <a href="https://fonts.google.com" target="_blank" rel="noopener noreferrer" class="underline hover:text-white/60">fonts.google.com</a> 取得可用字型名稱</p>
         </div>
+        
+        <div class="flex items-center justify-between">
+          <span class="text-sm text-white/70">面板背景</span>
+          <label class="glass-toggle">
+            <input type="checkbox" id="panelBg" checked />
+            <span class="glass-toggle-slider"></span>
+          </label>
+        </div>
       </form>
-      <footer class="mt-auto pt-4 border-t border-white/10 text-center text-xs text-white/50 space-y-1">
+      <footer class="mt-4 pt-4 border-t border-white/10 text-center text-xs text-white/50 space-y-1">
         <p>
           Copyright &copy; 2026 Jim Chen
           <a href="https://github.com/jim60105/obs-slider-widget" target="_blank" rel="noopener noreferrer" class="inline-block align-middle ml-1 hover:text-white/80 transition-colors">
@@ -167,18 +175,20 @@
 
     <!-- Right Panel: Display Area -->
     <main id="displayPanel" class="glass flex-1 flex items-stretch justify-end p-8">
-      <!-- Progress Bar Widget -->
-      <div class="flex items-stretch gap-4 h-full">
-        <!-- Vertical Title (align top) -->
-        <span id="displayTitle" class="progress-title self-start" style="font-size: 16px;">STATUS</span>
+      <div id="displayPanelBg" class="flex items-stretch glass-panel-bg">
+        <!-- Progress Bar Widget -->
+        <div class="flex items-stretch gap-4 h-full">
+          <!-- Vertical Title (align top) -->
+          <span id="displayTitle" class="progress-title self-start" style="font-size: 16px;">STATUS</span>
 
-        <!-- Glass Track -->
-        <div id="myProgressBar" class="glass-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-          <div id="myProgressFill" class="glass-fill"></div>
+          <!-- Glass Track -->
+          <div id="myProgressBar" class="glass-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div id="myProgressFill" class="glass-fill"></div>
+          </div>
+
+          <!-- Fraction Display (right of track, bottom-aligned) -->
+          <span id="displayPercent" class="progress-status self-end pb-1" style="font-size: 14px; color: color-mix(in srgb, var(--theme-color) 80%, transparent);">0<br>/<br>20</span>
         </div>
-
-        <!-- Fraction Display (right of track, bottom-aligned) -->
-        <span id="displayPercent" class="progress-status self-end pb-1" style="font-size: 14px; color: color-mix(in srgb, var(--theme-color) 80%, transparent);">0<br>/<br>20</span>
       </div>
     </main>
 

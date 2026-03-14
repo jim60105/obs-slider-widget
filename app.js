@@ -26,7 +26,8 @@
         progressVal: Number(document.getElementById('progressVal').value),
         themeColor: document.getElementById('themeColor').value,
         statusSize: Number(document.getElementById('statusSize').value),
-        fontFamily: document.getElementById('fontFamily').value
+        fontFamily: document.getElementById('fontFamily').value,
+        panelBg: document.getElementById('panelBg').checked
       };
       saveAllPresets(presets);
       refreshPresetDropdown();
@@ -71,6 +72,11 @@
       document.getElementById('displayTitle').style.fontSize = `${document.getElementById('titleSize').value}px`;
       document.getElementById('displayPercent').style.fontSize = `${document.getElementById('statusSize').value}px`;
       updateProgressDisplay(progressEl.value, totalEl.value);
+
+      // Apply panel background (default to true for backward compat)
+      const panelBgEnabled = preset.panelBg !== undefined ? preset.panelBg : true;
+      document.getElementById('panelBg').checked = panelBgEnabled;
+      document.getElementById('displayPanelBg').classList.toggle('glass-panel-bg', panelBgEnabled);
     }
 
     function deletePreset(name) {
@@ -394,6 +400,17 @@
           case 'fontFamily':
             debouncedLoadAndApply(target.value);
             break;
+          case 'panelBg':
+            document.getElementById('displayPanelBg').classList.toggle('glass-panel-bg', target.checked);
+            break;
+        }
+      });
+
+      // Change event for checkbox controls (ensures toggle works in all browsers)
+      controlForm.addEventListener('change', (event) => {
+        const target = event.target;
+        if (target.id === 'panelBg') {
+          document.getElementById('displayPanelBg').classList.toggle('glass-panel-bg', target.checked);
         }
       });
 
