@@ -1,3 +1,29 @@
+    // --- Theme Color Utilities (Chrome 103 compat: replaces CSS color-mix) ---
+    function hexToRgba(hex, alpha) {
+      const match = /^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/.exec(hex);
+      if (!match) return null;
+      let r, g, b;
+      if (match[1].length === 3) {
+        r = parseInt(match[1][0] + match[1][0], 16);
+        g = parseInt(match[1][1] + match[1][1], 16);
+        b = parseInt(match[1][2] + match[1][2], 16);
+      } else {
+        r = parseInt(match[1].substring(0, 2), 16);
+        g = parseInt(match[1].substring(2, 4), 16);
+        b = parseInt(match[1].substring(4, 6), 16);
+      }
+      return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    }
+
+    function applyThemeColor(hex) {
+      if (!/^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/.test(hex)) return;
+      const style = document.documentElement.style;
+      style.setProperty('--theme-color', hex);
+      style.setProperty('--theme-color-90', hexToRgba(hex, 0.9));
+      style.setProperty('--theme-color-80', hexToRgba(hex, 0.8));
+      document.getElementById('themeColor').style.borderLeftColor = hex;
+    }
+
     // --- Preset Persistence (namespace + CRUD) ---
     function getStorageKey() {
       const params = new URLSearchParams(window.location.search);
@@ -55,11 +81,7 @@
       }
 
       // Apply theme color
-      const hex = (preset.themeColor || '').trim();
-      if (/^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/.test(hex)) {
-        document.documentElement.style.setProperty('--theme-color', hex);
-        document.getElementById('themeColor').style.borderLeftColor = hex;
-      }
+      applyThemeColor((preset.themeColor || '').trim());
 
       // Apply font
       if (preset.fontFamily && preset.fontFamily.trim()) {
@@ -363,6 +385,9 @@
       const initialFont = document.getElementById('fontFamily').value;
       applyFont(initialFont);
 
+      // Initialize theme color derived CSS variables
+      applyThemeColor(document.getElementById('themeColor').value.trim() || '#707');
+
       // Real-time sync via input event delegation (no submit needed)
       controlForm.addEventListener('input', (event) => {
         const target = event.target;
@@ -386,14 +411,9 @@
           case 'progressVal':
             updateProgressDisplay(target.value, document.getElementById('totalVal').value);
             break;
-          case 'themeColor': {
-            const hex = target.value.trim();
-            if (/^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/.test(hex)) {
-              document.documentElement.style.setProperty('--theme-color', hex);
-              target.style.borderLeftColor = hex;
-            }
+          case 'themeColor':
+            applyThemeColor(target.value.trim());
             break;
-          }
           case 'statusSize':
             document.getElementById('displayPercent').style.fontSize = `${target.value}px`;
             break;

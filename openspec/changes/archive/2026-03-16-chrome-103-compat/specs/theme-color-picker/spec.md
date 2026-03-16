@@ -1,34 +1,4 @@
-## Purpose
-
-Provides a theme color control that updates CSS custom properties for widget theming.
-
-## Requirements
-
-### Requirement: Theme color CSS variable
-The system SHALL define a `--theme-color` CSS custom property on `:root` with a default value of `#707`.
-
-#### Scenario: Default theme color on page load
-- **WHEN** the page loads without user interaction
-- **THEN** `--theme-color` on `:root` SHALL be `#707`
-
-### Requirement: Color picker control
-The control form SHALL include a text input element with id `themeColor` and default value `#707`, labeled "主題色彩" (Theme Color). The text input SHALL have an inline color indicator via `style="border-left: 6px solid #707"` displaying the current color as its left border.
-
-#### Scenario: Text input present in control panel
-- **WHEN** the page loads
-- **THEN** the control form SHALL contain a text input with id `themeColor` and value `#707`
-
-#### Scenario: Color picker label
-- **WHEN** the page loads
-- **THEN** a label with text "主題色彩" SHALL be associated with the `themeColor` input
-
-#### Scenario: Color indicator border present
-- **WHEN** the page loads
-- **THEN** the `themeColor` input SHALL have `border-left: 6px solid #707` displaying the default color
-
-#### Scenario: Placeholder text
-- **WHEN** the page loads
-- **THEN** the text input SHALL display placeholder text `#707` indicating the expected hex format
+## MODIFIED Requirements
 
 ### Requirement: Theme color applies to progress bar fill
 The `.glass-fill` background SHALL use `--theme-color` at 90% opacity via the `--theme-color-90` CSS custom property (computed by JS from the theme color hex value). The CSS declaration SHALL use `var(--theme-color-90)` instead of `color-mix()`.
